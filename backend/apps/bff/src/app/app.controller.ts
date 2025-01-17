@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { QuoteRequestDto } from '@target/interfaces';
+import { QuoteRequestDto, QuoteResponseDto } from '@target/interfaces';
 import { InputDtoSchema } from '@target/validations';
+
 import { ValidationPipe } from './pipes/validation.pipe';
 import { QuoteService } from './services/quote/quote.service';
 
@@ -9,7 +10,7 @@ export class AppController {
   constructor(private readonly quoteService: QuoteService) {}
 
   @Post('/quote')
-  getQuote(@Body(new ValidationPipe(InputDtoSchema)) quoteDto: QuoteRequestDto) {
+  getQuote(@Body(new ValidationPipe(InputDtoSchema)) quoteDto: QuoteRequestDto): Promise<QuoteResponseDto> {
     return this.quoteService.getQuote(quoteDto);
   }
 }

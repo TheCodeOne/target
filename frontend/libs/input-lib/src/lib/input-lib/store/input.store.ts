@@ -4,16 +4,16 @@ import { QuoteRequestDto } from '@target/interfaces';
 import { InputDtoSchema } from '@target/validations';
 import { lastValueFrom } from 'rxjs';
 
-import { Input, InputState } from './input.store.interfaces';
+import { Input, InputStatePropertiesEnum, UiState } from './input.store.interfaces';
 import { QuoteService } from './services/quote.service';
 
-const initialState: InputState = {
-  leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
-  beitrag: { value: 1000, valid: true, error: null },
-  berechnungDerLaufzeit: { value: 'Alter bei Rentenbeginn', valid: true, error: null },
-  laufzeit: { value: 10, valid: true, error: null },
-  beitragszahlungsweise: { value: 'Einmalbeitrag', valid: true, error: null },
-  rentenzahlungsweise: { value: 'Monatliche Renten', valid: true, error: null },
+const initialState: UiState = {
+  [InputStatePropertiesEnum.LeistungsVorgabe]: { value: 'Beitrag', valid: true, error: null },
+  [InputStatePropertiesEnum.Beitrag]: { value: 1000, valid: true, error: null },
+  [InputStatePropertiesEnum.BerechnungDerLaufzeit]: { value: 'Alter bei Rentenbeginn', valid: true, error: null },
+  [InputStatePropertiesEnum.Laufzeit]: { value: 10, valid: true, error: null },
+  [InputStatePropertiesEnum.Beitragszahlungsweise]: { value: 'Einmalbeitrag', valid: true, error: null },
+  [InputStatePropertiesEnum.Rentenzahlungsweise]: { value: 'Monatliche Renten', valid: true, error: null },
   quote: {
     basisdaten: {
       geburtsdatum: '',
@@ -33,6 +33,11 @@ const initialState: InputState = {
       beitragsdynamik: ''
     },
   },
+  [InputStatePropertiesEnum.Geburtstag]: {
+    value: null,
+    valid: false,
+    error: null
+  }
 };
 
 export const InputStore = signalStore(
@@ -54,7 +59,7 @@ export const InputStore = signalStore(
       const validatedState = validationResult.error.errors.reduce(
         (state, { path, message }) => ({
           ...state,
-          [path[0]]: { ...state[path[0] as keyof InputState], valid: false, error: message },
+          [path[0]]: { ...state[path[0] as keyof UiState], valid: false, error: message },
         }),
         initialNewState
       );
@@ -80,4 +85,4 @@ export const InputStore = signalStore(
   }))
 );
 
-const transformUiStateToInputDto = (state: InputState): QuoteRequestDto => Object.entries(state).reduce((acc, [key, { value }]) => ({ ...acc, [key]: value }), {} as QuoteRequestDto);
+const transformUiStateToInputDto = (state: UiState): QuoteRequestDto => Object.entries(state).reduce((acc, [key, { value }]) => ({ ...acc, [key]: value }), {} as QuoteRequestDto);
