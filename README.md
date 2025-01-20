@@ -120,6 +120,7 @@ Currently we just show some of the quote details. We want to show all the quote 
 
 ### 5. Code Cleanup
 
+
 ```
 As a developer
 I want cleaner input-lib code
