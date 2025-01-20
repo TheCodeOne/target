@@ -9,6 +9,7 @@
                 nxDatefield
                 nxInput
                 [required]="true"
+                [disabled]="formDisabled()"
                 [value]="inputStore.uiState().geburtstag.value"
                 (dateChange)="updateInputs({ key: viewStateInputProperties.Geburtstag, value: $any($event).value })"
                 [datepicker]="myDatepicker"
@@ -28,6 +29,7 @@
           <div nxCol="12,12,8,8">
             <nx-formfield [label]="'Leistungs-/ Beitragsvorgabe'">
               <nx-dropdown
+                [disabled]="formDisabled()"
                 [value]="inputStore.uiState().leistungsVorgabe.value"
                 (valueChange)="updateInputs({ key: viewStateInputProperties.LeistungsVorgabe, value: $event })"
               >
@@ -45,6 +47,7 @@
               <input
                 nxInput
                 type="number"
+                [disabled]="formDisabled()"
                 [value]="inputStore.uiState().beitrag.value"
                 (input)="
                   updateInputs({
@@ -64,6 +67,7 @@
           <div nxCol="12,12,8,8">
             <nx-formfield [label]="'Berechnung der Laufzeit'">
               <nx-dropdown
+                [disabled]="formDisabled()"
                 [value]="inputStore.uiState().berechnungDerLaufzeit.value"
                 (valueChange)="updateInputs({ key: viewStateInputProperties.BerechnungDerLaufzeit, value: $event })"
               >
@@ -77,6 +81,7 @@
               <input
                 nxInput
                 type="number"
+                [disabled]="formDisabled()"
                 [value]="inputStore.uiState().laufzeit.value"
                 (input)="
                   updateInputs({
@@ -95,6 +100,7 @@
         <div nxCol="12">
           <nx-formfield [label]="'Beitragszahlungsweise'">
             <nx-dropdown
+              [disabled]="formDisabled()"
               [value]="inputStore.uiState().beitragszahlungsweise.value"
               (valueChange)="updateInputs({ key: viewStateInputProperties.Beitragszahlungsweise, value: $event })"
             >
@@ -109,6 +115,7 @@
         <div nxCol="12">
           <nx-formfield [label]="'Rentenzahlungsweise'">
             <nx-dropdown
+              [disabled]="formDisabled()"
               [value]="inputStore.uiState().rentenzahlungsweise.value"
               (valueChange)="updateInputs({ key: viewStateInputProperties.Rentenzahlungsweise, value: $event })"
             >
@@ -124,7 +131,21 @@
   </div>
   <div nxRow>
     <div nxCol="4">
-      <button nxButton type="button" [disabled]="!validState()" (click)="calculate()">Berechnen</button>
+      @if (calculateProcess()) {
+          <nx-spinner
+          size="large"
+          style="margin: 0 auto;"
+          [activationAnnouncement]="'Calculation of the quote has beed started...'"
+          [completionAnnouncement]="'Calculation of the quote has been finalized!'"
+        ></nx-spinner>
+
+        <h4>Die Berechnung des Angebots ist im Gange...</h4>
+      } @else {
+        <button nxButton="block primary" type="button" [disabled]="!validState() || calculateProcess()" (click)="calculate()">
+          Berechnen
+        </button>
+      }
+
     </div>
     <div nxCol="8">
       @if (inputStore.uiState().quote.beitrag.einmalbeitrag ||
