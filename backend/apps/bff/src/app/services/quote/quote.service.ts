@@ -1,10 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { QuoteRequestDto, QuoteResponseDto } from '@target/interfaces';
 
 @Injectable()
 export class QuoteService {
   async getQuote({ beitrag }: QuoteRequestDto): Promise<QuoteResponseDto> {
-    await this.sleep(Math.random() * 4000); // Simulate a real quote service delay 😅
+    const randomSec = Math.random() * 4000;
+
+    await this.sleep(randomSec); // Simulate a real quote service delay 😅
+
+    // Simulate a real quote service internal error appears
+    if (randomSec > 2000) {
+      throw new InternalServerErrorException();
+    }
 
     return {
       basisdaten: {
