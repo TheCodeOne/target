@@ -1,0 +1,26 @@
+{
+  "name": "navigation",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "shared/navigation/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/shared/navigation",
+        "main": "shared/navigation/src/index.ts",
+        "tsConfig": "shared/navigation/tsconfig.lib.json",
+        "assets": ["shared/navigation/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "shared/navigation/jest.config.ts"
+      }
+    }
+  }
+}

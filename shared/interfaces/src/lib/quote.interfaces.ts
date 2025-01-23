@@ -3,6 +3,7 @@ import { InputDto } from '@target/validations';
 export interface QuoteRequestDto extends InputDto {}
 
 export interface QuoteResponseDto {
+  id: string;
   basisdaten: QuoteBasisdatenDto;
   leistungsmerkmale: QuoteLeistungsmerkmaleDto;
   beitrag: QuoteBeitragDto;

@@ -1,5 +1,3 @@
-import { QuoteResponseDto } from "@target/interfaces";
-
 interface InputField<T> {
   value: T;
   valid: boolean;
@@ -26,11 +24,7 @@ export interface InputState {
   [InputStatePropertiesEnum.Geburtstag]: InputField<Date | null>;
 };
 
-export interface UiState extends InputState {
-  quote: QuoteResponseDto;
-}
-
 export interface Input {
-  key: keyof UiState;
+  key: keyof InputState;
   value: string | number | Date;
 }

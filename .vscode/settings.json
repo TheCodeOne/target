@@ -8,7 +8,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "eslint.validate": ["javascript", "typescript", "html"],
   "eslint.options": {
     "overrideConfigFile": "eslint.config.cjs"

@@ -147,23 +147,6 @@
       }
 
     </div>
-    <div nxCol="8">
-      @if (inputStore.uiState().quote.beitrag.einmalbeitrag ||
-      inputStore.uiState().quote.leistungsmerkmale.garantierteMindestrente) {
-      <div class="nx-margin-top-xs">
-        <div class="nx-margin-bottom-s">
-          <span>
-            <strong class="nx-margin-right-2xs">Einmalbeitrag:</strong>
-            {{ inputStore.uiState().quote.beitrag.einmalbeitrag | currency : 'EUR' }}
-          </span>
-          <span>
-            <strong class="nx-margin-right-2xs">Garantierte Mindestrente:</strong>
-            {{ inputStore.uiState().quote.leistungsmerkmale.garantierteMindestrente | currency : 'EUR' }}
-          </span>
-        </div>
-      </div>
-      }
-    </div>
   </div>
 </div>
 

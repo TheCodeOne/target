@@ -8,6 +8,7 @@ import { NxFormfieldComponent } from '@aposin/ng-aquila/formfield';
 import { NxColComponent, NxLayoutComponent, NxRowComponent } from '@aposin/ng-aquila/grid';
 import { NxInputModule } from '@aposin/ng-aquila/input';
 import { NxSpinnerComponent } from '@aposin/ng-aquila/spinner';
+import { NavigatorService } from '@target/navigation';
 
 import { InputStore } from './store/input.store';
 import { Input, InputStatePropertiesEnum } from './store/input.store.interfaces';
@@ -35,6 +36,7 @@ import { Input, InputStatePropertiesEnum } from './store/input.store.interfaces'
 })
 export class InputLibComponent {
   protected readonly inputStore = inject(InputStore);
+  private readonly navigator = inject(NavigatorService);
   protected readonly viewStateInputProperties = InputStatePropertiesEnum;
   protected readonly calculateProcess = signal<boolean | undefined>(undefined);
 
@@ -55,7 +57,9 @@ export class InputLibComponent {
   async calculate(): Promise<void> {
     try {
       this.calculateProcess.set(true);
-      await this.inputStore.calculate();
+      const calculatedQuoteId = await this.inputStore.calculate();
+
+      this.navigator.toQuote(calculatedQuoteId);
     } finally {
       this.calculateProcess.set(false);
     }

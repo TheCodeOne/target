@@ -13,7 +13,7 @@
       },
       "configurations": {
         "development": {
-          "args": ["node-env=development"]
+          "args": ["node-env=development"],
         }
       }
     },
@@ -27,10 +27,12 @@
       },
       "configurations": {
         "development": {
-          "buildTarget": "bff:build:development"
+          "buildTarget": "bff:build:development",
+          "inspect": true
         },
         "production": {
-          "buildTarget": "bff:build:production"
+          "buildTarget": "bff:build:production",
+          "inspect": true
         }
       }
     },

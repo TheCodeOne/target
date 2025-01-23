@@ -15,9 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@target/http-interception-lib": ["frontend/libs/http-interception-lib/src/index.ts"],
+      "@target/http-interception-lib": [
+        "frontend/libs/http-interception-lib/src/index.ts"
+      ],
       "@target/input-lib": ["frontend/libs/input-lib/src/index.ts"],
       "@target/interfaces": ["shared/interfaces/src/index.ts"],
+      "@target/navigation": ["shared/navigation/src/index.ts"],
+      "@target/quote-lib": ["frontend/libs/quote-lib/src/index.ts"],
       "@target/validations": ["shared/validations/src/index.ts"]
     }
   },

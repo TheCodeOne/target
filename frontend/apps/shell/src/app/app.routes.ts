@@ -1,22 +1,23 @@
 import { loadRemoteModule } from '@angular-architects/native-federation';
 import { Route } from '@angular/router';
-
-const ROUTES = {
-  INPUTS: 'inputs',
-};
+import { NAVIGATION_ROUTES } from '@target/navigation';
 
 export const appRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: ROUTES.INPUTS,
+    redirectTo: NAVIGATION_ROUTES.INPUTS,
   },
   {
-    path: ROUTES.INPUTS,
+    path: NAVIGATION_ROUTES.INPUTS,
     loadChildren: () => loadRemoteModule('mfeInputs', './mfe'),
   },
   {
+    path: NAVIGATION_ROUTES.QUOTE,
+    loadChildren: () => loadRemoteModule('mfeQuote', './mfe'),
+  },
+  {
     path: '**',
-    redirectTo: ROUTES.INPUTS,
+    redirectTo: NAVIGATION_ROUTES.INPUTS,
   },
 ];
