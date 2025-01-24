@@ -31,7 +31,8 @@ describe('QuoteService', () => {
         laufzeit: 12,
         leistungsVorgabe: 'Beitrag',
         berechnungDerLaufzeit: 'Alter bei Rentenbeginn',
-        beitragszahlungsweise: 'Monatliche Beiträge'
+        beitragszahlungsweise: 'Monatliche Beiträge',
+        geburtstag: new Date(1998,12,4)
       };
       const mockResponse: QuoteResponseDto = {
         basisdaten: {
@@ -67,7 +68,8 @@ describe('QuoteService', () => {
         laufzeit: 12,
         leistungsVorgabe: 'Beitrag',
         berechnungDerLaufzeit: 'Alter bei Rentenbeginn',
-        beitragszahlungsweise: 'Monatliche Beiträge'
+        beitragszahlungsweise: 'Monatliche Beiträge',
+        geburtstag: new Date(1998,12,4)
       };
       const errorResponse = new Error('API Error');
 

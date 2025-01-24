@@ -1,0 +1,9 @@
+<nx-message
+  context="error"
+  closable="true"
+  (close)="closed.emit()"
+  class="nx-margin-bottom-xs"
+>
+  <span class="nx-font-weight-bold">Operation error:</span><br />
+  {{ message }}
+</nx-message>

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm start",
-    "start": "npx nx run-many --target=serve --all",
+    "start": "npx nx run-many --target=serve --all --verbose",
     "start:shell": "nx run shell:serve",
     "start:bff": "nx run bff:serve",
     "test": "nx run-many -t test --coverage"

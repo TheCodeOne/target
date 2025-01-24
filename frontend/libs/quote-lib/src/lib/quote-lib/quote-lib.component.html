@@ -1,0 +1,72 @@
+@if (quoteState.isLoading()) {
+<nx-spinner size="large" style="margin: 0 auto"></nx-spinner>
+} @else if (quoteState.quote()) {
+
+<div nxLayout="grid maxwidth">
+  <div nxRow rowJustify="around">
+    <ng-container
+      *ngTemplateOutlet="
+        listLoop;
+        context: {
+          object: quoteState.quote()?.basisdaten,
+          label: 'Basisdaten:',
+          col: '4'
+        }
+      "
+    ></ng-container>
+  </div>
+
+  <div nxRow rowJustify="around">
+    <ng-container
+      *ngTemplateOutlet="
+        listLoop;
+        context: {
+          object: quoteState.quote()?.leistungsmerkmale,
+          label: 'Leistungsmerkmale:',
+          currencyType: 'EUR',
+          col: '4'
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        listLoop;
+        context: {
+          object: quoteState.quote()?.beitrag,
+          label: 'Beitrag:',
+          currencyType: 'EUR',
+          col: '4'
+        }
+      "
+    ></ng-container>
+  </div>
+</div>
+}
+
+<ng-template
+  #listLoop
+  let-object="object"
+  let-label="label"
+  let-col="col"
+  let-currencyType="currencyType"
+>
+  @if (object) {
+  <div [nxCol]="col" class="nx-margin-bottom-s">
+    <nx-data-display [label]="label">
+      <ul nxList>
+        @for (key of obectKeys(object); track key) {
+        <li class="nx-margin-bottom-0">
+          {{ transformToTitleCase(key) }}:
+          {{
+          currencyType && typeof $any(object)[key] === 'number'
+          ? ($any(object)[key] | currency : currencyType)
+          : $any(object)[key]
+          }}
+        </li>
+        }
+      </ul>
+    </nx-data-display>
+  </div>
+  }
+</ng-template>

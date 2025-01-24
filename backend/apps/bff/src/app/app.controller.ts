@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { QuoteRequestDto } from '@target/interfaces';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { QuoteRequestDto, QuoteResponseDto } from '@target/interfaces';
 import { InputDtoSchema } from '@target/validations';
+
 import { ValidationPipe } from './pipes/validation.pipe';
 import { QuoteService } from './services/quote/quote.service';
 
@@ -9,7 +10,12 @@ export class AppController {
   constructor(private readonly quoteService: QuoteService) {}
 
   @Post('/quote')
-  getQuote(@Body(new ValidationPipe(InputDtoSchema)) quoteDto: QuoteRequestDto) {
-    return this.quoteService.getQuote(quoteDto);
+  async postQuote(@Body(new ValidationPipe(InputDtoSchema)) quoteDto: QuoteRequestDto): Promise<QuoteResponseDto> {
+    return await this.quoteService.requestQuote(quoteDto);
+  }
+
+  @Get('/quote')
+  async getQuote(@Query('quoteId') quoteId: string): Promise<QuoteResponseDto> {
+    return await this.quoteService.getQuote(quoteId);
   }
 }
