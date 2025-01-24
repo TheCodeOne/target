@@ -1,154 +1,209 @@
-<div nxLayout="grid maxwidth">
-  <div nxRow>
-    <div nxCol="12">
-      <div class="nx-margin-bottom-4m">
+<form [formGroup]="form">
+  <div nxLayout="grid maxwidth">
+    <div nxRow>
+      <div nxCol="12">
+        <div class="nx-margin-bottom-4m">
+          <div nxRow>
+            <div nxCol="12">
+              <nx-formfield
+                [label]="'Geburtstag'"
+                appearance="auto"
+                floatLabel="auto"
+              >
+                <input
+                  nxDatefield
+                  nxInput
+                  [formControlName]="viewStateInputProperties.Geburtstag"
+                  [datepicker]="myDatepicker"
+                />
+                <span nxFormfieldHint>MM/DD/YYYY</span>
+
+                <nx-datepicker-toggle
+                  [for]="myDatepicker"
+                  nxFormfieldSuffix
+                ></nx-datepicker-toggle>
+                <nx-datepicker #myDatepicker></nx-datepicker>
+              </nx-formfield>
+            </div>
+          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              error;
+              context: { data: inputStore.uiState().geburtstag }
+            "
+          ></ng-container>
+        </div>
+
+        <div class="nx-margin-bottom-2m">
+          <div nxRow>
+            <div nxCol="12,12,8,8">
+              <nx-formfield [label]="'Leistungs-/ Beitragsvorgabe'">
+                <nx-dropdown
+                  [formControlName]="viewStateInputProperties.LeistungsVorgabe"
+                  [options]="
+                    $any(
+                      controlOptions[viewStateInputProperties.LeistungsVorgabe]
+                    )
+                  "
+                >
+                </nx-dropdown>
+              </nx-formfield>
+              <ng-container
+                *ngTemplateOutlet="error; context: { data: inputStore.uiState()?.[viewStateInputProperties.LeistungsVorgabe] }"
+              ></ng-container>
+            </div>
+            <div nxCol="12,12,4,4">
+              <nx-formfield
+                [label]="'Beitrag'"
+                appearance="auto"
+                floatLabel="auto"
+              >
+                <input
+                  nxInput
+                  type="number"
+                  [formControlName]="viewStateInputProperties.Beitrag"
+                />
+              </nx-formfield>
+            </div>
+          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              error;
+              context: { data: inputStore.uiState().beitrag }
+            "
+          ></ng-container>
+        </div>
+
+        <div class="nx-margin-bottom-2m">
+          <div nxRow>
+            <div nxCol="12,12,8,8">
+              <nx-formfield [label]="'Berechnung der Laufzeit'">
+                <nx-dropdown
+                  [formControlName]="
+                    viewStateInputProperties.BerechnungDerLaufzeit
+                  "
+                  [options]="
+                    $any(
+                      controlOptions[
+                        viewStateInputProperties.BerechnungDerLaufzeit
+                      ]
+                    )
+                  "
+                >
+                </nx-dropdown>
+              </nx-formfield>
+              <ng-container
+                *ngTemplateOutlet="error; context: { data: inputStore.uiState()?.[viewStateInputProperties.BerechnungDerLaufzeit] }"
+              ></ng-container>
+            </div>
+            <div nxCol="12,12,4,4">
+              <nx-formfield
+                [label]="'Jahre'"
+                appearance="auto"
+                floatLabel="auto"
+              >
+                <input
+                  nxInput
+                  type="number"
+                  [formControlName]="viewStateInputProperties.Laufzeit"
+                />
+              </nx-formfield>
+            </div>
+          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              error;
+              context: { data: inputStore.uiState().laufzeit }
+            "
+          ></ng-container>
+        </div>
+
+        <div nxRow class="nx-margin-bottom-2m">
+          <div nxCol="12">
+            <nx-formfield [label]="'Beitragszahlungsweise'">
+              <nx-dropdown
+                [formControlName]="
+                  viewStateInputProperties.Beitragszahlungsweise
+                "
+                [options]="
+                  $any(
+                    controlOptions[
+                      viewStateInputProperties.Beitragszahlungsweise
+                    ]
+                  )
+                "
+              >
+              </nx-dropdown>
+            </nx-formfield>
+            <ng-container
+              *ngTemplateOutlet="
+                error;
+                context: {
+                  data: inputStore.uiState()[
+                    viewStateInputProperties.Beitragszahlungsweise
+                  ]
+                }
+              "
+            ></ng-container>
+          </div>
+        </div>
+
         <div nxRow>
           <div nxCol="12">
-            <nx-formfield [label]="'Geburtstag'" appearance="auto" floatLabel="auto">
-              <input
-                nxDatefield
-                nxInput
-                [required]="true"
-                [disabled]="formDisabled()"
-                [value]="inputStore.uiState().geburtstag.value"
-                (dateChange)="updateInputs({ key: viewStateInputProperties.Geburtstag, value: $any($event).value })"
-                [datepicker]="myDatepicker"
-              />
-              <span nxFormfieldHint>MM/DD/YYYY</span>
-
-              <nx-datepicker-toggle [for]="myDatepicker" nxFormfieldSuffix></nx-datepicker-toggle>
-              <nx-datepicker #myDatepicker></nx-datepicker>
-            </nx-formfield>
-          </div>
-        </div>
-        <ng-container *ngTemplateOutlet="error; context: { data: inputStore.uiState().geburtstag }"></ng-container>
-      </div>
-
-      <div class="nx-margin-bottom-2m">
-        <div nxRow>
-          <div nxCol="12,12,8,8">
-            <nx-formfield [label]="'Leistungs-/ Beitragsvorgabe'">
+            <nx-formfield [label]="'Rentenzahlungsweise'">
               <nx-dropdown
-                [disabled]="formDisabled()"
-                [value]="inputStore.uiState().leistungsVorgabe.value"
-                (valueChange)="updateInputs({ key: viewStateInputProperties.LeistungsVorgabe, value: $event })"
+                [formControlName]="viewStateInputProperties.Rentenzahlungsweise"
+                [options]="
+                  $any(
+                    controlOptions[viewStateInputProperties.Rentenzahlungsweise]
+                  )
+                "
               >
-                <nx-dropdown-item [value]="'Beitrag'">Beitrag</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Einmalbeitrag'">Einmalbeitrag</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Garantierte Mindestrente'">Garantierte Mindestrente</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Garantiekapital'">Garantiekapital</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Gesamtkapital'">Gesamtkapital</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Gesamtrente'">Gesamtrente</nx-dropdown-item>
               </nx-dropdown>
             </nx-formfield>
+            <ng-container
+              *ngTemplateOutlet="
+                error;
+                context: {
+                  data: inputStore.uiState()[
+                    viewStateInputProperties.Rentenzahlungsweise
+                  ]
+                }
+              "
+            ></ng-container>
           </div>
-          <div nxCol="12,12,4,4">
-            <nx-formfield [label]="'Beitrag'" appearance="auto" floatLabel="auto">
-              <input
-                nxInput
-                type="number"
-                [disabled]="formDisabled()"
-                [value]="inputStore.uiState().beitrag.value"
-                (input)="
-                  updateInputs({
-                    key: viewStateInputProperties.Beitrag,
-                    value: +$any($event.target).value
-                  })
-                "
-              />
-            </nx-formfield>
-          </div>
-        </div>
-        <ng-container *ngTemplateOutlet="error; context: { data: inputStore.uiState().beitrag }"></ng-container>
-      </div>
-
-      <div class="nx-margin-bottom-2m">
-        <div nxRow>
-          <div nxCol="12,12,8,8">
-            <nx-formfield [label]="'Berechnung der Laufzeit'">
-              <nx-dropdown
-                [disabled]="formDisabled()"
-                [value]="inputStore.uiState().berechnungDerLaufzeit.value"
-                (valueChange)="updateInputs({ key: viewStateInputProperties.BerechnungDerLaufzeit, value: $event })"
-              >
-                <nx-dropdown-item [value]="'Alter bei Rentenbeginn'">Alter bei Rentenbeginn</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Aufschubdauer'">Aufschubdauer</nx-dropdown-item>
-              </nx-dropdown>
-            </nx-formfield>
-          </div>
-          <div nxCol="12,12,4,4">
-            <nx-formfield [label]="'Jahre'" appearance="auto" floatLabel="auto">
-              <input
-                nxInput
-                type="number"
-                [disabled]="formDisabled()"
-                [value]="inputStore.uiState().laufzeit.value"
-                (input)="
-                  updateInputs({
-                    key: viewStateInputProperties.Laufzeit,
-                    value: +$any($event.target).value
-                  })
-                "
-              />
-            </nx-formfield>
-          </div>
-        </div>
-        <ng-container *ngTemplateOutlet="error; context: { data: inputStore.uiState().laufzeit }"></ng-container>
-      </div>
-
-      <div nxRow class="nx-margin-bottom-2m">
-        <div nxCol="12">
-          <nx-formfield [label]="'Beitragszahlungsweise'">
-            <nx-dropdown
-              [disabled]="formDisabled()"
-              [value]="inputStore.uiState().beitragszahlungsweise.value"
-              (valueChange)="updateInputs({ key: viewStateInputProperties.Beitragszahlungsweise, value: $event })"
-            >
-              <nx-dropdown-item [value]="'Einmalbeitrag'">Einmalbeitrag</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Monatliche Beiträge'">Monatliche Beiträge</nx-dropdown-item>
-            </nx-dropdown>
-          </nx-formfield>
-        </div>
-      </div>
-
-      <div nxRow>
-        <div nxCol="12">
-          <nx-formfield [label]="'Rentenzahlungsweise'">
-            <nx-dropdown
-              [disabled]="formDisabled()"
-              [value]="inputStore.uiState().rentenzahlungsweise.value"
-              (valueChange)="updateInputs({ key: viewStateInputProperties.Rentenzahlungsweise, value: $event })"
-            >
-              <nx-dropdown-item [value]="'Monatliche Renten'">Monatliche Renten</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Vierteljährliche Renten'">Vierteljährliche Renten</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Halbjährliche Renten'">Halbjährliche Renten</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Jährliche Renten'">Jährliche Renten</nx-dropdown-item>
-            </nx-dropdown>
-          </nx-formfield>
         </div>
       </div>
     </div>
-  </div>
-  <div nxRow>
-    <div nxCol="4">
-      @if (calculateProcess()) {
-          <nx-spinner
+    <div nxRow>
+      <div nxCol="4">
+        @if (calculateProcess()) {
+        <nx-spinner
           size="large"
-          style="margin: 0 auto;"
-          [activationAnnouncement]="'Calculation of the quote has beed started...'"
-          [completionAnnouncement]="'Calculation of the quote has been finalized!'"
+          style="margin: 0 auto"
+          [activationAnnouncement]="
+            'Calculation of the quote has beed started...'
+          "
+          [completionAnnouncement]="
+            'Calculation of the quote has been finalized!'
+          "
         ></nx-spinner>
 
         <h4>Die Berechnung des Angebots ist im Gange...</h4>
-      } @else {
-        <button nxButton="block primary" type="button" [disabled]="!validState() || calculateProcess()" (click)="calculate()">
+        } @else {
+        <button
+          nxButton="block primary"
+          type="button"
+          [disabled]="!validState() || calculateProcess()"
+          (click)="calculate()"
+        >
           Berechnen
         </button>
-      }
-
+        }
+      </div>
     </div>
   </div>
-</div>
+</form>
 
 <ng-template #error let-data="data">
   @if (data.error) {
