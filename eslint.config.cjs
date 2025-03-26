@@ -14,7 +14,7 @@ module.exports = [
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
-        project: ['./tsconfig*.json'],
+        project: ['./tsconfig*.json', './frontend/apps/*/tsconfig*.json', './frontend/libs/*/tsconfig*.json', './shared/*/tsconfig*.json'],
         tsconfigRootDir: __dirname,
       },
     },
@@ -139,6 +139,13 @@ module.exports = [
     files: ['*.js', '*.jsx'],
     plugins: {
       '@nx': nx,
+    },
+    rules: {},
+  },
+  {
+    files: ['*.html'],
+    plugins: {
+      html: html,
     },
     rules: {},
   },

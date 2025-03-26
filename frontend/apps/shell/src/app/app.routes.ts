@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { InputLibComponent } from '@target/input-lib';
+
 const ROUTES = {
   INPUTS: 'inputs',
 };

@@ -43,7 +43,10 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint"
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["frontend/apps/shell/**/*.ts"]
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

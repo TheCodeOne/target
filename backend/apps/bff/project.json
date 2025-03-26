@@ -40,6 +40,13 @@
       "options": {
         "jestConfig": "backend/apps/bff/jest.config.ts"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["backend/apps/bff/**/*.ts"]
+      }
     }
   }
 }

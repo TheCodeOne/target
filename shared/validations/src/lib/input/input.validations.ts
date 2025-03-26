@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { BeitragszahlungsweiseSchema } from './beitragszahlungsweise';
 import { BerechnungDerLaufzeitSchema } from './berechnung-der-laufzeit';
 import { LeistungsvorgabeSchema } from './leistungsvorgabe';
