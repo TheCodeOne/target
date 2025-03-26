@@ -1,6 +1,5 @@
-import { loadRemoteModule } from '@angular-architects/native-federation';
 import { Route } from '@angular/router';
-
+import { InputLibComponent } from '@target/input-lib';
 const ROUTES = {
   INPUTS: 'inputs',
 };
@@ -13,7 +12,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: ROUTES.INPUTS,
-    loadChildren: () => loadRemoteModule('mfeInputs', './mfe'),
+    component: InputLibComponent,
   },
   {
     path: '**',

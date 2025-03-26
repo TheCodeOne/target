@@ -12,6 +12,7 @@ import { Input } from './store/input.store.interfaces';
 
 @Component({
   selector: 'lib-input-lib',
+  standalone: true,
   imports: [
     CommonModule,
     NxLayoutComponent,

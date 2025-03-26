@@ -1,6 +1,7 @@
-import { initFederation } from '@angular-architects/native-federation';
+import { bootstrapApplication } from '@angular/platform-browser';
 
-initFederation('federation.manifest.json')
-  .catch(err => console.error(err))
-  .then(_ => import('./bootstrap'))
+import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+
+bootstrapApplication(AppComponent, appConfig)
   .catch(err => console.error(err));

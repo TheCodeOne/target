@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-architects/native-federation:build",
+      "executor": "@angular-devkit/build-angular:application",
       "options": {},
       "configurations": {
         "production": {
@@ -21,12 +21,19 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-architects/native-federation:build",
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "shell:esbuild:production"
+        },
+        "development": {
+          "buildTarget": "shell:esbuild:development"
+        }
+      },
+      "defaultConfiguration": "development",
       "options": {
-        "target": "shell:serve-original:development",
-        "rebuildDelay": 0,
-        "dev": true,
-        "port": 0
+        "proxyConfig": "frontend/apps/shell/proxy.conf.json",
+        "port": 4200
       }
     },
     "extract-i18n": {
@@ -75,9 +82,7 @@
           "node_modules/@aposin/ng-aquila/themes/aposin.css",
           "node_modules/@aposin/ng-aquila/css/utilities.css"
         ],
-        "scripts": [],
-        "baseHref": "/shell/"
-      },
+        "scripts": []      },
       "configurations": {
         "production": {
           "budgets": [

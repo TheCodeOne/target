@@ -56,7 +56,7 @@ Questions? Concerns? Contact us anytime - we're here to help!
 
 ### 1. Birthdate Implementation
 
-```
+```gherkin
 As a user
 I want to provide my birthdate
 So that I can get an age-specific quote
@@ -75,7 +75,7 @@ The quote service is currently mocked and will return a quote after a random del
 
 ### 2. Loading State Feedback
 
-```
+```gherkin
 As a user
 I want visual feedback during quote calculation
 So that I know the application is processing my request
@@ -88,7 +88,7 @@ So that I know the application is processing my request
 
 ### 3. Error Handling
 
-```
+```gherkin
 As a user
 I want clear error notifications
 So that I can understand and resolve issues
@@ -103,7 +103,7 @@ It's about the async call to the backend. If something goes wrong, we want to in
 
 ### 4. Quote Summary Page
 
-```
+```gherkin
 As a user
 I want a comprehensive summary page
 So that I can review all quote details
@@ -120,7 +120,7 @@ Currently we just show some of the quote details. We want to show all the quote 
 
 ### 5. Code Cleanup
 
-```
+```gherkin
 As a developer
 I want cleaner input-lib code
 So that it's more maintainable and extensible
