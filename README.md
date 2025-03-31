@@ -1,6 +1,6 @@
 # Target Code Challenge
 
-A modern NX-Monorepo project featuring a backend service and a microfrontend-based frontend application.
+A modern NX-Monorepo project featuring a backend service and a frontend application.
 
 ## 🚀 Quick Start
 
@@ -113,10 +113,9 @@ So that I can review all quote details
 
 - ✅ Create dedicated summary page that shows all quote details
 - ✅ Be as creative as you want with the design 🧑‍🎨
-- ✅ Implement as a separate microfrontend for reusability
 - ✅ Display all quote details
 
-Currently we just show some of the quote details. We want to show all the quote details on a separate page as a microfrontend for better reusability.
+Currently we just show some of the quote details. We want to show all the quote details on a separate page for a clearer structure.
 
 ### 5. Code Cleanup
 
