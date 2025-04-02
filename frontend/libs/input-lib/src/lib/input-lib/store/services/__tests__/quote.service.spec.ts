@@ -12,10 +12,7 @@ describe('QuoteService', () => {
   beforeEach(() => {
     httpClient = { post: jest.fn() };
     TestBed.configureTestingModule({
-      providers: [
-        QuoteService,
-        { provide: HttpClient, useValue: httpClient }
-      ]
+      providers: [QuoteService, { provide: HttpClient, useValue: httpClient }],
     });
     service = TestBed.inject(QuoteService);
   });
@@ -26,13 +23,17 @@ describe('QuoteService', () => {
 
   describe('calculateQuote', () => {
     it('should call the correct endpoint with quote request data', async () => {
+      const geburtsdatum = '2000-01-01';
+
       const mockRequest: QuoteRequestDto = {
+        geburtsdatum,
         beitrag: 1000,
         laufzeit: 12,
         leistungsVorgabe: 'Beitrag',
         berechnungDerLaufzeit: 'Alter bei Rentenbeginn',
-        beitragszahlungsweise: 'Monatliche Beiträge'
+        beitragszahlungsweise: 'Monatliche Beiträge',
       };
+
       const mockResponse: QuoteResponseDto = {
         basisdaten: {
           geburtsdatum: '1990-01-01',
@@ -40,43 +41,48 @@ describe('QuoteService', () => {
           garantieniveau: '90%',
           alterBeiRentenbeginn: 67,
           aufschubdauer: 30,
-          beitragszahlungsdauer: 10
+          beitragszahlungsdauer: 10,
         },
         leistungsmerkmale: {
           garantierteMindestrente: 50000,
           einmaligesGarantiekapital: 25000,
-          todesfallleistungAbAltersrentenbezug: 40000
+          todesfallleistungAbAltersrentenbezug: 40000,
         },
         beitrag: {
           einmalbeitrag: 0,
-          beitragsdynamik: '1,5%'
-        }
+          beitragsdynamik: '1,5%',
+        },
       };
 
       httpClient.post.mockReturnValue(of(mockResponse));
 
-      const response = await firstValueFrom(service.calculateQuote(mockRequest));
+      const response = await firstValueFrom(
+        service.calculateQuote(mockRequest)
+      );
 
       expect(response).toEqual(mockResponse);
       expect(httpClient.post).toHaveBeenCalledWith('/api/quote', mockRequest);
     });
 
     it('should propagate errors from the API', async () => {
+      const geburtsdatum = '2000-01-01';
+
       const mockRequest: QuoteRequestDto = {
+        geburtsdatum,
         beitrag: 1000,
         laufzeit: 12,
         leistungsVorgabe: 'Beitrag',
         berechnungDerLaufzeit: 'Alter bei Rentenbeginn',
-        beitragszahlungsweise: 'Monatliche Beiträge'
+        beitragszahlungsweise: 'Monatliche Beiträge',
       };
       const errorResponse = new Error('API Error');
 
       httpClient.post.mockReturnValue(throwError(() => errorResponse));
 
-      await expect(firstValueFrom(service.calculateQuote(mockRequest)))
-        .rejects.toBe(errorResponse);
+      await expect(
+        firstValueFrom(service.calculateQuote(mockRequest))
+      ).rejects.toBe(errorResponse);
       expect(httpClient.post).toHaveBeenCalledWith('/api/quote', mockRequest);
     });
   });
 });
-
