@@ -112,7 +112,16 @@
   </div>
   <div nxRow>
     <div nxCol="4">
-      <button nxButton type="button" (click)="calculate()">Berechnen</button>
+      @if (isProcessingData()) {
+        <nx-spinner
+          size="large"
+          [activationAnnouncement]="'Calculating quote...'"
+          [completionAnnouncement]="'Quota calculation completed.'"
+        ></nx-spinner>
+      }
+      @if (!isProcessingData()) {
+        <button nxButton type="button" (click)="calculate()">Berechnen</button>
+      }
     </div>
     <div nxCol="8">
       @if (inputStore.uiState().quote.beitrag.einmalbeitrag || inputStore.uiState().quote.leistungsmerkmale.garantierteMindestrente) {
