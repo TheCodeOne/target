@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { fakerEN } from '@faker-js/faker';
 import { QuoteResponseDto } from '@target/interfaces';
 import { InputDtoSchema } from '@target/validations';
 import { of, throwError } from 'rxjs';
@@ -16,24 +17,27 @@ describe('InputStore', () => {
   let store: any;
   let quoteService: jest.Mocked<QuoteService>;
 
+  const date = fakerEN.date.past({ years: 20 });
+  const geburtsdatum = `${date.getUTCFullYear()}-${date.getMonth()}-${date.getDate()}`;
+
   const mockQuoteResponse: QuoteResponseDto = {
     basisdaten: {
-      geburtsdatum: '1990-01-01',
+      geburtsdatum,
       versicherungsbeginn: '2024-01-01',
       garantieniveau: '90%',
       alterBeiRentenbeginn: 67,
       aufschubdauer: 30,
-      beitragszahlungsdauer: 10
+      beitragszahlungsdauer: 10,
     },
     leistungsmerkmale: {
       garantierteMindestrente: 50000,
       einmaligesGarantiekapital: 25000,
-      todesfallleistungAbAltersrentenbezug: 40000
+      todesfallleistungAbAltersrentenbezug: 40000,
     },
     beitrag: {
       einmalbeitrag: 0,
-      beitragsdynamik: '1,5%'
-    }
+      beitragsdynamik: '1,5%',
+    },
   };
 
   beforeEach(() => {
@@ -42,9 +46,7 @@ describe('InputStore', () => {
     } as unknown as jest.Mocked<QuoteService>;
 
     TestBed.configureTestingModule({
-      providers: [
-        { provide: QuoteService, useValue: quoteService }
-      ]
+      providers: [{ provide: QuoteService, useValue: quoteService }],
     });
 
     store = TestBed.inject(InputStore);
@@ -54,7 +56,9 @@ describe('InputStore', () => {
     it('should update state when validation succeeds', async () => {
       const input = { key: 'beitrag', value: 2000 };
 
-      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({ success: true });
+      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({
+        success: true,
+      });
 
       await (store as any).updateInputs(input);
 
@@ -69,8 +73,8 @@ describe('InputStore', () => {
       (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({
         success: false,
         error: {
-          errors: [{ path: ['beitrag'], message: 'Beitrag must be positive' }]
-        }
+          errors: [{ path: ['beitrag'], message: 'Beitrag must be positive' }],
+        },
       });
 
       await (store as any).updateInputs(input);
@@ -83,7 +87,9 @@ describe('InputStore', () => {
 
   describe('calculate', () => {
     it('should update quote when calculation succeeds', async () => {
-      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({ success: true });
+      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({
+        success: true,
+      });
       quoteService.calculateQuote.mockReturnValue(of(mockQuoteResponse));
 
       await (store as any).calculate();
@@ -93,22 +99,21 @@ describe('InputStore', () => {
     });
 
     it('should handle validation failure', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({
+        success: false,
+      });
 
-      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({ success: false });
-
-      await (store as any).calculate();
-
-      expect(consoleSpy).toHaveBeenCalledWith(new Error('Invalid input'));
-      expect(quoteService.calculateQuote).not.toHaveBeenCalled();
-
-      consoleSpy.mockRestore();
+      await expect((store as any).calculate()).rejects.toThrowError(
+        'Invalid input'
+      );
     });
 
     it('should handle API errors', async () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({ success: true });
+      (InputDtoSchema.safeParseAsync as jest.Mock).mockResolvedValue({
+        success: true,
+      });
       const error = new Error('API Error');
 
       quoteService.calculateQuote.mockReturnValue(throwError(() => error));

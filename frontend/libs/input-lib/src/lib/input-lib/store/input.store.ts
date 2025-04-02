@@ -8,9 +8,14 @@ import { Input, InputState } from './input.store.interfaces';
 import { QuoteService } from './services/quote.service';
 
 const initialState: InputState = {
+  geburtsdatum: { value: '', valid: true, error: null },
   leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
   beitrag: { value: 1000, valid: true, error: null },
-  berechnungDerLaufzeit: { value: 'Alter bei Rentenbeginn', valid: true, error: null },
+  berechnungDerLaufzeit: {
+    value: 'Alter bei Rentenbeginn',
+    valid: true,
+    error: null,
+  },
   laufzeit: { value: 10, valid: true, error: null },
   beitragszahlungsweise: { value: 'Einmalbeitrag', valid: true, error: null },
   rentenzahlungsweise: { value: 'Monatliche Renten', valid: true, error: null },
@@ -21,16 +26,16 @@ const initialState: InputState = {
       garantieniveau: '',
       alterBeiRentenbeginn: 0,
       aufschubdauer: 0,
-      beitragszahlungsdauer: 0
+      beitragszahlungsdauer: 0,
     },
     leistungsmerkmale: {
       garantierteMindestrente: 0,
       einmaligesGarantiekapital: 0,
-      todesfallleistungAbAltersrentenbezug: 0
+      todesfallleistungAbAltersrentenbezug: 0,
     },
     beitrag: {
       einmalbeitrag: 0,
-      beitragsdynamik: ''
+      beitragsdynamik: '',
     },
   },
 };
@@ -44,7 +49,9 @@ export const InputStore = signalStore(
         ...store.uiState(),
         [input.key]: { value: input.value, valid: true, error: null },
       };
-      const validationResult = await InputDtoSchema.safeParseAsync(transformUiStateToInputDto(initialNewState));
+      const validationResult = await InputDtoSchema.safeParseAsync(
+        transformUiStateToInputDto(initialNewState)
+      );
 
       if (validationResult.success) {
         patchState(store, { uiState: initialNewState });
@@ -54,7 +61,11 @@ export const InputStore = signalStore(
       const validatedState = validationResult.error.errors.reduce(
         (state, { path, message }) => ({
           ...state,
-          [path[0]]: { ...state[path[0] as keyof InputState], valid: false, error: message },
+          [path[0]]: {
+            ...state[path[0] as keyof InputState],
+            valid: false,
+            error: message,
+          },
         }),
         initialNewState
       );
@@ -65,12 +76,44 @@ export const InputStore = signalStore(
       const quoteDto = transformUiStateToInputDto(store.uiState());
       const validationResult = await InputDtoSchema.safeParseAsync(quoteDto);
 
-      try {
-        if (!validationResult.success) {
-          throw new Error('Invalid input');
-        }
+      if (!validationResult.success) {
+        const validatedState = { ...store.uiState() };
 
-        const quote = await lastValueFrom(quoteService.calculateQuote(quoteDto as QuoteRequestDto));
+        // Modify the state for all keys to reset errors tpo ensure and fresh validation
+        Object.keys(validatedState).forEach((key) => {
+          patchState(store, {
+            uiState: {
+              ...validatedState,
+              [key]: {
+                ...validatedState[key as keyof InputState],
+                valid: true,
+                error: null,
+              },
+            },
+          });
+        });
+
+        // Modify the state for the keys that have errors
+        validationResult.error?.errors.forEach(({ path, message }) => {
+          patchState(store, {
+            uiState: {
+              ...validatedState,
+              [path[0]]: {
+                ...validatedState[path[0] as keyof InputState],
+                valid: false,
+                error: message,
+              },
+            },
+          });
+        });
+
+        throw new Error('Invalid input');
+      }
+
+      try {
+        const quote = await lastValueFrom(
+          quoteService.calculateQuote(quoteDto as QuoteRequestDto)
+        );
 
         patchState(store, { uiState: { ...store.uiState(), quote } });
       } catch (error) {
@@ -80,4 +123,11 @@ export const InputStore = signalStore(
   }))
 );
 
-const transformUiStateToInputDto = (state: InputState): QuoteRequestDto => Object.entries(state).reduce((acc, [key, { value }]) => ({ ...acc, [key]: value }), {} as QuoteRequestDto);
+const transformUiStateToInputDto = (state: InputState): QuoteRequestDto =>
+  Object.entries(state).reduce(
+    (acc, [key, { value }]) => ({
+      ...acc,
+      [key]: value,
+    }),
+    {} as QuoteRequestDto
+  );

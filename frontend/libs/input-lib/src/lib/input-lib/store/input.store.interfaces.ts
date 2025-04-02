@@ -7,6 +7,7 @@ interface InputField<T> {
 }
 
 export interface InputState {
+  geburtsdatum: InputField<string>;
   leistungsVorgabe: InputField<string>;
   beitrag: InputField<number>;
   berechnungDerLaufzeit: InputField<string>;
