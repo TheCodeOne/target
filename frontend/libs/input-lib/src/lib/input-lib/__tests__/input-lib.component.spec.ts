@@ -43,6 +43,7 @@ describe('InputLibComponent', () => {
       http: mockHttp as HttpClient
     };
     const mockState: InputState = {
+      geburtsdatum: { value: '2002-02-04', valid: true, error: null },
       leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
       beitrag: { value: 1000, valid: true, error: null },
       berechnungDerLaufzeit: { value: 'Alter bei Rentenbeginn', valid: true, error: null },

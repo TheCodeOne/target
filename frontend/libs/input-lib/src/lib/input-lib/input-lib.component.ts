@@ -2,11 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NxErrorModule } from '@aposin/ng-aquila/base';
 import { NxButtonModule } from '@aposin/ng-aquila/button';
-import { NxDropdownComponent, NxDropdownItemComponent } from '@aposin/ng-aquila/dropdown';
+import {
+  NxDropdownComponent,
+  NxDropdownItemComponent,
+} from '@aposin/ng-aquila/dropdown';
 import { NxFormfieldComponent } from '@aposin/ng-aquila/formfield';
-import { NxColComponent, NxLayoutComponent, NxRowComponent } from '@aposin/ng-aquila/grid';
+import {
+  NxColComponent,
+  NxLayoutComponent,
+  NxRowComponent,
+} from '@aposin/ng-aquila/grid';
 import { NxInputModule } from '@aposin/ng-aquila/input';
 
+import { DatepickerComponent } from '../date-picker/datepicker.component';
 import { InputStore } from './store/input.store';
 import { Input } from './store/input.store.interfaces';
 
@@ -24,6 +32,7 @@ import { Input } from './store/input.store.interfaces';
     NxInputModule,
     NxErrorModule,
     NxButtonModule,
+    DatepickerComponent,
   ],
   templateUrl: './input-lib.component.html',
 })
@@ -35,6 +44,6 @@ export class InputLibComponent {
   }
 
   async calculate(): Promise<void> {
-    await this.inputStore.calculate()
+    await this.inputStore.calculate();
   }
 }
