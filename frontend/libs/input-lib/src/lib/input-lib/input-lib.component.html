@@ -4,10 +4,10 @@
       <div class="nx-margin-bottom-4m">
         <div nxRow>
           <div nxCol="12">
-           <lib-date-picker
-             [value]="inputStore.uiState().geburtsdatum.value"
-             (dateChange)="updateInputs({key: 'geburtsdatum', value: $event})"
-           ></lib-date-picker>
+            <lib-date-picker
+              [value]="inputStore.uiState().geburtsdatum.value"
+              (dateChange)="updateInputs({key: 'geburtsdatum', value: $event})"
+            ></lib-date-picker>
           </div>
         </div>
         @if (inputStore.uiState().geburtsdatum.error) {
@@ -124,6 +124,8 @@
       }
     </div>
     <div nxCol="8">
+      <lib-error-box [errorMessage]="errorResponse()"></lib-error-box>
+
       @if (inputStore.uiState().quote.beitrag.einmalbeitrag || inputStore.uiState().quote.leistungsmerkmale.garantierteMindestrente) {
         <div class="nx-margin-top-xs">
           <div class="nx-margin-bottom-s">

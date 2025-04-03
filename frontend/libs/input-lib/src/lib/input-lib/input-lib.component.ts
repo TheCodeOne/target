@@ -14,6 +14,8 @@ import {
 } from '@aposin/ng-aquila/grid';
 import { NxInputModule } from '@aposin/ng-aquila/input';
 import { NxSpinnerComponent } from '@aposin/ng-aquila/spinner';
+import { ApiErrorResponse } from '@target/interfaces';
+import { ErrorBoxComponent } from '@target/ui-lib';
 
 import { DatepickerComponent } from '../date-picker/datepicker.component';
 import { InputStore } from './store/input.store';
@@ -35,6 +37,7 @@ import { Input } from './store/input.store.interfaces';
     NxButtonModule,
     DatepickerComponent,
     NxSpinnerComponent,
+    ErrorBoxComponent,
   ],
   templateUrl: './input-lib.component.html',
 })
@@ -42,17 +45,28 @@ export class InputLibComponent {
   protected readonly inputStore = inject(InputStore);
 
   protected isProcessingData = signal<boolean>(false);
+  protected errorResponse = signal<ApiErrorResponse>({} as ApiErrorResponse);
 
   updateInputs(input: Input): void {
-    this.inputStore.updateInputs(input);
-  }
-
-  async calculate(): Promise<void> {
     this.isProcessingData.set(true);
 
-    await this.inputStore
+    this.inputStore
+      .updateInputs(input)
+      .then(() => this.isProcessingData.set(false));
+  }
+
+  calculate(): void {
+    this.isProcessingData.set(true);
+
+    this.inputStore
       .calculate()
       .then(() => this.isProcessingData.set(false))
-      .catch(() => this.isProcessingData.set(false));
+      .catch((err) => {
+        if (err.status === 400)
+          this.inputStore.processErrors(err.error.message);
+        else this.errorResponse.set(err.error);
+
+        this.isProcessingData.set(false);
+      });
   }
 }

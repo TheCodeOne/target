@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { QuoteRequestDto } from '@target/interfaces';
+import { QuoteRequestDto, QuoteResponseDto } from '@target/interfaces';
 import { InputDtoSchema } from '@target/validations';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, tap } from 'rxjs';
 
 import { Input, InputState } from './input.store.interfaces';
 import { QuoteService } from './services/quote.service';
 
 const initialState: InputState = {
-  geburtsdatum: { value: '', valid: true, error: null },
+  geburtsdatum: { value: '1985-07-25', valid: true, error: null },
   leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
   beitrag: { value: 1000, valid: true, error: null },
   berechnungDerLaufzeit: {
@@ -72,7 +72,32 @@ export const InputStore = signalStore(
 
       patchState(store, { uiState: validatedState });
     },
-    calculate: async (): Promise<void> => {
+
+    processErrors: (messages: string[]): void => {
+      const errorArr = messages?.map((it) => {
+        const errArr = it.split(':');
+
+        return {
+          path: errArr[0].trim(),
+          message: errArr[1].trim(),
+        };
+      });
+
+      errorArr?.forEach(({ path, message }) => {
+        patchState(store, {
+          uiState: {
+            ...store.uiState(),
+            [path]: {
+              ...store.uiState()[path as keyof InputState],
+              valid: false,
+              error: message,
+            },
+          },
+        });
+      });
+    },
+
+    calculate: async (): Promise<QuoteResponseDto> => {
       const quoteDto = transformUiStateToInputDto(store.uiState());
       const validationResult = await InputDtoSchema.safeParseAsync(quoteDto);
 
@@ -110,15 +135,25 @@ export const InputStore = signalStore(
         throw new Error('Invalid input');
       }
 
-      try {
-        const quote = await lastValueFrom(
-          quoteService.calculateQuote(quoteDto as QuoteRequestDto)
-        );
+      return lastValueFrom(
+        quoteService
+          .calculateQuote(quoteDto as QuoteRequestDto)
+          .pipe(
+            tap((quote) =>
+              patchState(store, { uiState: { ...store.uiState(), quote } })
+            )
+          )
+      );
 
-        patchState(store, { uiState: { ...store.uiState(), quote } });
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   const quote = await lastValueFrom(
+      //     quoteService.calculateQuote(quoteDto as QuoteRequestDto)
+      //   )
+      //
+      //   patchState(store, { uiState: { ...store.uiState(), quote } });
+      // } catch (error) {
+      //   console.error(error);
+      // }
     },
   }))
 );
