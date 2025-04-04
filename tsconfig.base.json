@@ -18,7 +18,8 @@
       "@target/input-lib": ["frontend/libs/input-lib/src/index.ts"],
       "@target/interfaces": ["shared/interfaces/src/index.ts"],
       "@target/ui-lib": ["frontend/libs/ui-lib/src/index.ts"],
-      "@target/validations": ["shared/validations/src/index.ts"]
+      "@target/validations": ["shared/validations/src/index.ts"],
+      "@target/view-lib": ["frontend/libs/view-lib/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
