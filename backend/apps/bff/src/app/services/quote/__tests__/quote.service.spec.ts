@@ -15,26 +15,33 @@ describe('QuoteService', () => {
 
   describe('getQuote', () => {
     it('should return quote details for given contribution amount', async () => {
+      const geburtsdatum = '2000-01-01';
+
+      const beitrag = 1000;
+
       const expectedQuote = {
         basisdaten: {
-          geburtsdatum: '1990-01-01',
+          geburtsdatum: geburtsdatum,
           versicherungsbeginn: '2025-02-01',
           garantieniveau: '90%',
           alterBeiRentenbeginn: 67,
           aufschubdauer: 30,
-          beitragszahlungsdauer: 10
+          beitragszahlungsdauer: 10,
         },
         leistungsmerkmale: {
-          garantierteMindestrente: 50000,
-          einmaligesGarantiekapital: 500,
-          todesfallleistungAbAltersrentenbezug: 67
+          garantierteMindestrente: beitrag * 50,
+          einmaligesGarantiekapital: beitrag / 2,
+          todesfallleistungAbAltersrentenbezug: 67,
         },
         beitrag: {
-          einmalbeitrag: 1000,
-          beitragsdynamik: '1,5%'
-        }
+          einmalbeitrag: beitrag,
+          beitragsdynamik: '1,5%',
+        },
       };
-      const result = await service.getQuote({ beitrag: 1000 });
+      const result = await service.getQuote({
+        beitrag,
+        geburtsdatum,
+      });
 
       expect(result).toEqual(expectedQuote);
     });

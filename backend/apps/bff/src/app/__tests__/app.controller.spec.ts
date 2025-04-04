@@ -21,29 +21,37 @@ describe('AppController', () => {
   });
 
   describe('getQuote', () => {
-    it('should call quoteService.getQuote with the provided DTO', async () => {
+    it('should call process quote with a valid birthday', async () => {
+      const geburtsdatum = '2020-01-01';
+
       const mockQuoteDto: QuoteRequestDto = {
-        // Add required properties based on your DTO
+        geburtsdatum,
+        leistungsVorgabe: 'Beitrag',
+        beitrag: 1000,
+        berechnungDerLaufzeit: 'Alter bei Rentenbeginn',
+        laufzeit: 10,
+        beitragszahlungsweise: 'Einmalbeitrag',
         rentenzahlungsweise: 'Monatliche Renten',
       } as QuoteRequestDto;
+
       const expectedResult = {
         basisdaten: {
-          geburtsdatum: '1990-01-01',
+          geburtsdatum,
           versicherungsbeginn: '2024-01-01',
           garantieniveau: '100%',
           alterBeiRentenbeginn: 67,
           aufschubdauer: 30,
-          beitragszahlungsdauer: 30
+          beitragszahlungsdauer: 30,
         },
         leistungsmerkmale: {
           garantierteMindestrente: 1000,
           einmaligesGarantiekapital: 50000,
-          todesfallleistungAbAltersrentenbezug: 40000
+          todesfallleistungAbAltersrentenbezug: 40000,
         },
         beitrag: {
           einmalbeitrag: 50000,
-          beitragsdynamik: '3%'
-        }
+          beitragsdynamik: '3%',
+        },
       };
 
       quoteService.getQuote.mockResolvedValue(expectedResult);

@@ -1,8 +1,9 @@
 import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NxSpinnerComponent } from '@aposin/ng-aquila/spinner';
 import { of } from 'rxjs';
 
-import { InputLibComponent } from '../input-lib.component';
+import { InputLibComponent } from '../../../index';
 import { InputStore } from '../store/input.store';
 import { Input, InputState } from '../store/input.store.interfaces';
 import { QuoteService } from '../store/services/quote.service';
@@ -43,6 +44,7 @@ describe('InputLibComponent', () => {
       http: mockHttp as HttpClient
     };
     const mockState: InputState = {
+      geburtsdatum: { value: '2002-02-04', valid: true, error: null },
       leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
       beitrag: { value: 1000, valid: true, error: null },
       berechnungDerLaufzeit: { value: 'Alter bei Rentenbeginn', valid: true, error: null },
@@ -71,7 +73,7 @@ describe('InputLibComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [InputLibComponent],
+      imports: [InputLibComponent,NxSpinnerComponent],
       providers: [
         provideHttpClient(),
         { provide: QuoteService, useValue: mockQuoteService },
@@ -107,7 +109,7 @@ describe('InputLibComponent', () => {
 
   it('should calculate through the store', async () => {
     await component.calculate();
-
+    // TOOO: Fix text with "Could not parse CSS stylesheet" error
     expect(inputStore.calculate).toHaveBeenCalled();
   });
 

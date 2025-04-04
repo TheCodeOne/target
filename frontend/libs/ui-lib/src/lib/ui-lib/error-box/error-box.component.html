@@ -1,0 +1,10 @@
+@if (apiErrorMessage().message.length) {
+  <nx-error nxFormfieldError [showIcon]="true">
+    <strong>The following errors have been reported:</strong>
+    <div class="nx-margin-left-2m">
+      <div *ngFor="let item of apiErrorMessage().message">
+        <span>{{ item }}</span>
+      </div>
+    </div>
+  </nx-error>
+}

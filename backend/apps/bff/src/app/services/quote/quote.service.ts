@@ -3,27 +3,30 @@ import { QuoteRequestDto, QuoteResponseDto } from '@target/interfaces';
 
 @Injectable()
 export class QuoteService {
-  async getQuote({ beitrag }: QuoteRequestDto): Promise<QuoteResponseDto> {
+  async getQuote({
+    beitrag,
+    geburtsdatum,
+  }: QuoteRequestDto): Promise<QuoteResponseDto> {
     await this.sleep(Math.random() * 4000); // Simulate a real quote service delay 😅
 
     return {
       basisdaten: {
-        geburtsdatum: '1990-01-01',
+        geburtsdatum: geburtsdatum,
         versicherungsbeginn: '2025-02-01',
         garantieniveau: '90%',
         alterBeiRentenbeginn: 67,
         aufschubdauer: 30,
-        beitragszahlungsdauer: 10
+        beitragszahlungsdauer: 10,
       },
       leistungsmerkmale: {
         garantierteMindestrente: beitrag * 50,
         einmaligesGarantiekapital: beitrag / 2,
-        todesfallleistungAbAltersrentenbezug: 67
+        todesfallleistungAbAltersrentenbezug: 67,
       },
       beitrag: {
         einmalbeitrag: beitrag,
-        beitragsdynamik: '1,5%'
-      }
+        beitragsdynamik: '1,5%',
+      },
     };
   }
 

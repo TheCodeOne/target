@@ -8,6 +8,10 @@ export interface QuoteResponseDto {
   beitrag: QuoteBeitragDto;
 }
 
+export interface QuoteCreateResponseDto {
+  id: string;
+}
+
 interface QuoteBasisdatenDto {
   geburtsdatum: string;
   versicherungsbeginn: string;

@@ -1,8 +1,10 @@
 import { Route } from '@angular/router';
 import { InputLibComponent } from '@target/input-lib';
+import { ViewLibComponent } from '@target/view-lib';
 
 const ROUTES = {
   INPUTS: 'inputs',
+  VIEW: 'view',
 };
 
 export const appRoutes: Route[] = [
@@ -14,6 +16,10 @@ export const appRoutes: Route[] = [
   {
     path: ROUTES.INPUTS,
     component: InputLibComponent,
+  },
+  {
+    path: ROUTES.VIEW,
+    component: ViewLibComponent,
   },
   {
     path: '**',
