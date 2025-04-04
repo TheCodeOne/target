@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 export class QuoteService {
   private readonly http = inject(HttpClient);
 
-  calculateQuote(quoteDto: QuoteRequestDto): Observable<QuoteResponseDto> {
-    return this.http.post<QuoteResponseDto>('/api/quote', quoteDto);
+  calculateQuote(
+    quoteDto: QuoteRequestDto
+  ): Observable<QuoteCreateResponseDto> {
+    return this.http.post<QuoteCreateResponseDto>('/api/quote', quoteDto);
   }
 }

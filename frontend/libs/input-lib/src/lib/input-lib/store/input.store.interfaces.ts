@@ -1,5 +1,3 @@
-import { QuoteResponseDto } from "@target/interfaces";
-
 interface InputField<T> {
   value: T;
   valid: boolean;
@@ -14,7 +12,6 @@ export interface InputState {
   laufzeit: InputField<number>;
   beitragszahlungsweise: InputField<string>;
   rentenzahlungsweise: InputField<string>;
-  quote: QuoteResponseDto;
 }
 
 export interface Input {
