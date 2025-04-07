@@ -2,9 +2,11 @@ import { Route } from '@angular/router';
 import { InputLibComponent } from '@target/input-lib';
 import { ViewLibComponent } from '@target/view-lib';
 
+import { quoteViewResolver } from './resolvers/quote-view.resolver';
+
 const ROUTES = {
   INPUTS: 'inputs',
-  VIEW: 'view',
+  VIEW: 'view/:id',
 };
 
 export const appRoutes: Route[] = [
@@ -20,6 +22,7 @@ export const appRoutes: Route[] = [
   {
     path: ROUTES.VIEW,
     component: ViewLibComponent,
+    resolve: [quoteViewResolver],
   },
   {
     path: '**',

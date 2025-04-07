@@ -19,70 +19,87 @@ describe('InputLibComponent', () => {
 
   beforeEach(async () => {
     const mockHttp = {
-      post: jest.fn()
+      post: jest.fn(),
     } as Partial<HttpClient>;
     const mockQuoteService = {
-      calculateQuote: jest.fn().mockReturnValue(of({
-        basisdaten: {
-          geburtsdatum: '1990-01-01',
-          versicherungsbeginn: '2024-01-01',
-          garantieniveau: '90%',
-          alterBeiRentenbeginn: 67,
-          aufschubdauer: 30,
-          beitragszahlungsdauer: 30
-        },
-        leistungsmerkmale: {
-          garantierteMindestrente: 1000,
-          einmaligesGarantiekapital: 100000,
-          todesfallleistungAbAltersrentenbezug: 50000
-        },
-        beitrag: {
-          einmalbeitrag: 50000,
-          beitragsdynamik: '3%'
-        }
-      })),
-      http: mockHttp as HttpClient
+      calculateQuote: jest.fn().mockReturnValue(
+        of({
+          basisdaten: {
+            geburtsdatum: '1990-01-01',
+            versicherungsbeginn: '2024-01-01',
+            garantieniveau: '90%',
+            alterBeiRentenbeginn: 67,
+            aufschubdauer: 30,
+            beitragszahlungsdauer: 30,
+          },
+          leistungsmerkmale: {
+            garantierteMindestrente: 1000,
+            einmaligesGarantiekapital: 100000,
+            todesfallleistungAbAltersrentenbezug: 50000,
+          },
+          beitrag: {
+            einmalbeitrag: 50000,
+            beitragsdynamik: '3%',
+          },
+        })
+      ),
+      http: mockHttp as HttpClient,
     };
     const mockState: InputState = {
       geburtsdatum: { value: '2002-02-04', valid: true, error: null },
       leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
       beitrag: { value: 1000, valid: true, error: null },
-      berechnungDerLaufzeit: { value: 'Alter bei Rentenbeginn', valid: true, error: null },
-      laufzeit: { value: 10, valid: true, error: null },
-      beitragszahlungsweise: { value: 'Einmalbeitrag', valid: true, error: null },
-      rentenzahlungsweise: { value: 'Monatliche Renten', valid: true, error: null },
-      quote: {
-        basisdaten: {
-          geburtsdatum: '',
-          versicherungsbeginn: '',
-          garantieniveau: '',
-          alterBeiRentenbeginn: 0,
-          aufschubdauer: 0,
-          beitragszahlungsdauer: 0
-        },
-        leistungsmerkmale: {
-          garantierteMindestrente: 0,
-          einmaligesGarantiekapital: 0,
-          todesfallleistungAbAltersrentenbezug: 0
-        },
-        beitrag: {
-          einmalbeitrag: 0,
-          beitragsdynamik: ''
-        },
+      berechnungDerLaufzeit: {
+        value: 'Alter bei Rentenbeginn',
+        valid: true,
+        error: null,
       },
+      laufzeit: { value: 10, valid: true, error: null },
+      beitragszahlungsweise: {
+        value: 'Einmalbeitrag',
+        valid: true,
+        error: null,
+      },
+      rentenzahlungsweise: {
+        value: 'Monatliche Renten',
+        valid: true,
+        error: null,
+      },
+      // quote: {
+      //   basisdaten: {
+      //     geburtsdatum: '',
+      //     versicherungsbeginn: '',
+      //     garantieniveau: '',
+      //     alterBeiRentenbeginn: 0,
+      //     aufschubdauer: 0,
+      //     beitragszahlungsdauer: 0
+      //   },
+      //   leistungsmerkmale: {
+      //     garantierteMindestrente: 0,
+      //     einmaligesGarantiekapital: 0,
+      //     todesfallleistungAbAltersrentenbezug: 0
+      //   },
+      //   beitrag: {
+      //     einmalbeitrag: 0,
+      //     beitragsdynamik: ''
+      //   },
+      // },
     };
 
     await TestBed.configureTestingModule({
-      imports: [InputLibComponent,NxSpinnerComponent],
+      imports: [InputLibComponent, NxSpinnerComponent],
       providers: [
         provideHttpClient(),
         { provide: QuoteService, useValue: mockQuoteService },
-        { provide: InputStore, useValue: {
-          updateInputs: jest.fn(),
-          calculate: jest.fn(),
-          uiState: jest.fn(() => mockState)
-        }}
-      ]
+        {
+          provide: InputStore,
+          useValue: {
+            updateInputs: jest.fn(),
+            calculate: jest.fn(),
+            uiState: jest.fn(() => mockState),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InputLibComponent);
@@ -99,7 +116,7 @@ describe('InputLibComponent', () => {
   it('should update inputs through the store', async () => {
     const input: Input = {
       key: 'beitrag',
-      value: 2000
+      value: 2000,
     };
 
     await component.updateInputs(input);
@@ -116,7 +133,7 @@ describe('InputLibComponent', () => {
   it('should handle string inputs', async () => {
     const input: Input = {
       key: 'leistungsVorgabe',
-      value: 'Rente'
+      value: 'Rente',
     };
 
     await component.updateInputs(input);
@@ -127,7 +144,7 @@ describe('InputLibComponent', () => {
   it('should handle numeric inputs', async () => {
     const input: Input = {
       key: 'laufzeit',
-      value: 15
+      value: 15,
     };
 
     await component.updateInputs(input);

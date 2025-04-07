@@ -18,8 +18,6 @@ export class QuoteService {
   }
 
   fetchQuote(quoteId: string): Observable<QuoteResponseDto> {
-    return this.http.get<QuoteResponseDto>('/api/quote', {
-      params: { quoteId },
-    });
+    return this.http.get<QuoteResponseDto>(`/api/quote/${quoteId}`);
   }
 }

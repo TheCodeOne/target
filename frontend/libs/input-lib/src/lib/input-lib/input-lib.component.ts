@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { NxErrorModule } from '@aposin/ng-aquila/base';
 import { NxButtonModule } from '@aposin/ng-aquila/button';
 import {
@@ -43,6 +44,7 @@ import { Input } from './store/input.store.interfaces';
 })
 export class InputLibComponent {
   protected readonly inputStore = inject(InputStore);
+  private readonly router = inject(Router);
 
   protected isProcessingData = signal<boolean>(false);
   protected errorResponse = signal<ApiErrorResponse>({} as ApiErrorResponse);
@@ -60,7 +62,10 @@ export class InputLibComponent {
 
     this.inputStore
       .calculate()
-      .then(() => this.isProcessingData.set(false))
+      .then(async (res) => {
+        await this.router.navigate(['/view', res]);
+        this.isProcessingData.set(false);
+      })
       .catch((err) => {
         if (err.status === 400)
           this.inputStore.processErrors(err.error.message);

@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { QuoteCreateResponseDto, QuoteRequestDto } from '@target/interfaces';
+import { QuoteRequestDto } from '@target/interfaces';
 import { InputDtoSchema } from '@target/validations';
 import { lastValueFrom } from 'rxjs';
 
@@ -78,7 +78,7 @@ export const InputStore = signalStore(
       });
     },
 
-    calculate: async (): Promise<QuoteCreateResponseDto> => {
+    calculate: async (): Promise<string> => {
       const quoteDto = transformUiStateToInputDto(store.uiState());
       const validationResult = await InputDtoSchema.safeParseAsync(quoteDto);
 
@@ -116,9 +116,11 @@ export const InputStore = signalStore(
         throw new Error('Invalid input');
       }
 
-      return lastValueFrom(
-        quoteService.calculateQuote(quoteDto as QuoteRequestDto)
-      );
+      return (
+        await lastValueFrom(
+          quoteService.calculateQuote(quoteDto as QuoteRequestDto)
+        )
+      ).id;
     },
   }))
 );
