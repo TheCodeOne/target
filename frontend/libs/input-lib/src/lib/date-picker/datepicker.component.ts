@@ -2,24 +2,25 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  forwardRef,
   inject,
-  Input,
-  Output,
-  signal,
 } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { NxErrorComponent } from '@aposin/ng-aquila/base';
 import {
   NxDateAdapter,
   NxDatefieldDirective,
   NxDatepickerComponent,
-  NxDatepickerInputEvent,
   NxDatepickerToggleComponent,
 } from '@aposin/ng-aquila/datefield';
 import { NxFormfieldComponent } from '@aposin/ng-aquila/formfield';
 import { NxInputModule } from '@aposin/ng-aquila/input';
 import { NxMomentDateModule } from '@aposin/ng-aquila/moment-date-adapter';
-import moment from 'moment/moment';
+import moment, { Moment } from 'moment/moment';
 
 @Component({
   selector: 'lib-date-picker',
@@ -33,27 +34,54 @@ import moment from 'moment/moment';
     NxDatepickerToggleComponent,
     NxErrorComponent,
     NxFormfieldComponent,
+    FormsModule,
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DatepickerComponent),
+      multi: true,
+    },
   ],
   templateUrl: './datepicker.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatepickerComponent {
-  // TODO: force input date format to DD-MM-YYYY
-  @Input()
-  set value(vle: string) {
-    this.geburtsdatum.set(this.adapter.parse(vle, 'YYYY-MM-DD', true));
-  }
-
-  @Output() dateChange: EventEmitter<string> = new EventEmitter();
+export class DatepickerComponent implements ControlValueAccessor {
+  protected isDisabled: boolean = false;
+  private _value: string = '';
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
 
   protected readonly adapter = inject(NxDateAdapter);
-
-  protected geburtsdatum = signal<string>('');
 
   protected minDate = moment().subtract(100, 'years');
   protected maxDate = moment().subtract(18, 'years');
 
-  updateDate($event: NxDatepickerInputEvent<any>): void {
-    this.dateChange.emit($event.target.value?.format('YYYY-MM-DD'));
+  get value(): string {
+    return this._value;
+  }
+
+  set value(val: Moment) {
+    this._value = val?.format('YYYY-MM-DD');
+    this.onChange(val?.format('YYYY-MM-DD'));
+    this.onTouched();
+  }
+
+  writeValue(value: string): void {
+    if (value !== undefined) {
+      this._value = '';
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
   }
 }

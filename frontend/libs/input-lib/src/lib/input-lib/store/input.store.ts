@@ -8,7 +8,7 @@ import { Input, InputState } from './input.store.interfaces';
 import { QuoteService } from './services/quote.service';
 
 const initialState: InputState = {
-  geburtsdatum: { value: '1985-07-25', valid: true, error: null },
+  geburtsdatum: { value: '', valid: true, error: null },
   leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
   beitrag: { value: 1000, valid: true, error: null },
   berechnungDerLaufzeit: {
@@ -25,17 +25,19 @@ export const InputStore = signalStore(
   { providedIn: 'root' },
   withState({ uiState: initialState }),
   withMethods((store, quoteService = inject(QuoteService)) => ({
-    updateInputs: async (input: Input): Promise<void> => {
+    updateInputs: async (input: Input[]): Promise<void> => {
       const initialNewState = {
         ...store.uiState(),
-        [input.key]: { value: input.value, valid: true, error: null },
+        ...transformFromInputArrayToInputState(input),
       };
+
       const validationResult = await InputDtoSchema.safeParseAsync(
         transformUiStateToInputDto(initialNewState)
       );
 
       if (validationResult.success) {
         patchState(store, { uiState: initialNewState });
+
         return;
       }
 
@@ -132,4 +134,13 @@ const transformUiStateToInputDto = (state: InputState): QuoteRequestDto =>
       [key]: value,
     }),
     {} as QuoteRequestDto
+  );
+
+const transformFromInputArrayToInputState = (input: Input[]): {} =>
+  input.reduce(
+    (acc, { key, value }) => ({
+      ...acc,
+      [key]: { value: value, valid: true, error: null },
+    }),
+    {} as InputState
   );

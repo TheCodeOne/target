@@ -1,12 +1,11 @@
-<div nxLayout="grid maxwidth">
+<form nxLayout="grid maxwidth" [formGroup]="profile">
   <div nxRow>
     <div nxCol="12">
       <div class="nx-margin-bottom-4m">
         <div nxRow>
           <div nxCol="12">
             <lib-date-picker
-              [value]="inputStore.uiState().geburtsdatum.value"
-              (dateChange)="updateInputs({key: 'geburtsdatum', value: $event})"
+              formControlName="geburtsdatum"
             ></lib-date-picker>
           </div>
         </div>
@@ -24,22 +23,13 @@
       <div class="nx-margin-bottom-2m">
         <div nxRow>
           <div nxCol="12,12,8,8">
-            <nx-formfield [label]="'Leistungs-/ Beitragsvorgabe'">
-              <nx-dropdown [value]="inputStore.uiState().leistungsVorgabe.value"
-                           (valueChange)="updateInputs({key: 'leistungsVorgabe', value: $event})">
-                <nx-dropdown-item [value]="'Beitrag'">Beitrag</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Einmalbeitrag'">Einmalbeitrag</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Garantierte Mindestrente'">Garantierte Mindestrente</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Garantiekapital'">Garantiekapital</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Gesamtkapital'">Gesamtkapital</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Gesamtrente'">Gesamtrente</nx-dropdown-item>
-              </nx-dropdown>
+            <nx-formfield [label]="'Leistungs-/ Beitragsvorgabe'" id="leistungsVorgabe">
+              <nx-dropdown formControlName="leistungsVorgabe" [options]="leistungsVorgabeOpts" />
             </nx-formfield>
           </div>
           <div nxCol="12,12,4,4">
             <nx-formfield [label]="'Beitrag'" appearance="auto" floatLabel="auto">
-              <input nxInput type="number" [value]="inputStore.uiState().beitrag.value"
-                     (input)="updateInputs({key: 'beitrag', value: +$any($event.target).value})" />
+              <input nxInput type="number" formControlName="beitrag" />
             </nx-formfield>
           </div>
         </div>
@@ -58,17 +48,12 @@
         <div nxRow>
           <div nxCol="12,12,8,8">
             <nx-formfield [label]="'Berechnung der Laufzeit'">
-              <nx-dropdown [value]="inputStore.uiState().berechnungDerLaufzeit.value"
-                           (valueChange)="updateInputs({key: 'berechnungDerLaufzeit', value: $event})">
-                <nx-dropdown-item [value]="'Alter bei Rentenbeginn'">Alter bei Rentenbeginn</nx-dropdown-item>
-                <nx-dropdown-item [value]="'Aufschubdauer'">Aufschubdauer</nx-dropdown-item>
-              </nx-dropdown>
+              <nx-dropdown formControlName="berechnungDerLaufzeit" [options]="berechnungDerLaufzeitOpts" />
             </nx-formfield>
           </div>
           <div nxCol="12,12,4,4">
             <nx-formfield [label]="'Jahre'" appearance="auto" floatLabel="auto">
-              <input nxInput type="number" [value]="inputStore.uiState().laufzeit.value"
-                     (input)="updateInputs({key: 'laufzeit', value: +$any($event.target).value})" />
+              <input nxInput type="number" formControlName="laufzeit" />
             </nx-formfield>
           </div>
         </div>
@@ -86,11 +71,7 @@
       <div nxRow class="nx-margin-bottom-2m">
         <div nxCol="12">
           <nx-formfield [label]="'Beitragszahlungsweise'">
-            <nx-dropdown [value]="inputStore.uiState().beitragszahlungsweise.value"
-                         (valueChange)="updateInputs({key: 'beitragszahlungsweise', value: $event})">
-              <nx-dropdown-item [value]="'Einmalbeitrag'">Einmalbeitrag</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Monatliche Beiträge'">Monatliche Beiträge</nx-dropdown-item>
-            </nx-dropdown>
+            <nx-dropdown formControlName="beitragszahlungsweise" [options]="beitragszahlungsweiseOpts" />
           </nx-formfield>
         </div>
       </div>
@@ -98,13 +79,7 @@
       <div nxRow>
         <div nxCol="12">
           <nx-formfield [label]="'Rentenzahlungsweise'">
-            <nx-dropdown [value]="inputStore.uiState().rentenzahlungsweise.value"
-                         (valueChange)="updateInputs({key: 'rentenzahlungsweise', value: $event})">
-              <nx-dropdown-item [value]="'Monatliche Renten'">Monatliche Renten</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Vierteljährliche Renten'">Vierteljährliche Renten</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Halbjährliche Renten'">Halbjährliche Renten</nx-dropdown-item>
-              <nx-dropdown-item [value]="'Jährliche Renten'">Jährliche Renten</nx-dropdown-item>
-            </nx-dropdown>
+            <nx-dropdown formControlName="rentenzahlungsweise" [options]="rentenzahlungsweiseOpts" />
           </nx-formfield>
         </div>
       </div>
@@ -125,21 +100,6 @@
     </div>
     <div nxCol="8">
       <lib-error-box [errorMessage]="errorResponse()"></lib-error-box>
-
-<!--      @if (inputStore.uiState().quote.beitrag.einmalbeitrag || inputStore.uiState().quote.leistungsmerkmale.garantierteMindestrente) {-->
-<!--        <div class="nx-margin-top-xs">-->
-<!--          <div class="nx-margin-bottom-s">-->
-<!--            <span>-->
-<!--              <strong-->
-<!--                class="nx-margin-right-2xs">Einmalbeitrag:</strong> {{ inputStore.uiState().quote.beitrag.einmalbeitrag | currency : 'EUR' }}-->
-<!--            </span>-->
-<!--            <span>-->
-<!--              <strong-->
-<!--                class="nx-margin-right-2xs">Garantierte Mindestrente:</strong> {{ inputStore.uiState().quote.leistungsmerkmale.garantierteMindestrente | currency : 'EUR' }}-->
-<!--            </span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      }-->
     </div>
   </div>
-</div>
+</form>

@@ -1,6 +1,28 @@
 <div nxLayout="grid maxwidth">
   <div nxRow>
+    <div nxLayout="grid">
+      <div class="nx-margin-top-xs">
+        <div class="nx-margin-bottom-s">
+          <strong>
+            <strong
+              class="nx-margin-right-2xs">Einmalbeitrag:</strong>
+            {{ state.beitrag.einmalbeitrag | currency : 'EUR' }}
+          </strong>
+        </div>
+      </div>
+      <div class="nx-margin-top-xs">
+        <div class="nx-margin-bottom-s">
+          <strong>
+            <strong
+              class="nx-margin-right-2xs">Garantierte
+              Mindestrente:</strong> {{ state.leistungsmerkmale.garantierteMindestrente | currency : 'EUR' }}
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div nxRow>
     <div nxLayout="grid">
       <h2>Basisdaten</h2>
       <div nxRow class="nx-margin-bottom-2m">

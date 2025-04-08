@@ -5,8 +5,8 @@
     nxDatefield
     nxInput
     [datepicker]="datePicker"
-    [value]="geburtsdatum()"
-    (dateInput)="updateDate($event)"
+    [(ngModel)]="value"
+    [disabled]="isDisabled"
   />
   <span nxFormfieldHint>MM/DD/YYYY</span>
   <nx-error nxFormfieldError> Please enter a valid date.</nx-error>
