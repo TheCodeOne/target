@@ -16,7 +16,6 @@ import { NxInputModule } from '@aposin/ng-aquila/input';
 import { NxIsoDateModule } from '@aposin/ng-aquila/iso-date-adapter';
 import { NxSpinnerComponent } from '@aposin/ng-aquila/spinner';
 import { ApiErrorResponse } from '@target/interfaces';
-import { ErrorBoxComponent } from '@target/ui-lib';
 import {
   beitragszahlungsweiseOpts,
   berechnungDerLaufzeitOpts,
@@ -25,9 +24,10 @@ import {
 } from '@target/validations';
 import { debounceTime } from 'rxjs';
 
-import { DatepickerComponent } from '../date-picker/datepicker.component';
+import { DatepickerComponent } from '../../../../date-picker-lib/src/lib/date-picker-lib/datepicker.component';
 import { InputStore } from './store/input.store';
 import { Input } from './store/input.store.interfaces';
+import { ErrorBoxComponent } from '../../../../error-box-lib/src/lib/error-box-lib/error-box.component';
 
 @Component({
   selector: 'lib-input-lib',
@@ -44,10 +44,10 @@ import { Input } from './store/input.store.interfaces';
     NxErrorModule,
     NxButtonModule,
     NxSpinnerComponent,
-    ErrorBoxComponent,
     FormsModule,
     ReactiveFormsModule,
     DatepickerComponent,
+    ErrorBoxComponent,
   ],
   templateUrl: './input-lib.component.html',
 })

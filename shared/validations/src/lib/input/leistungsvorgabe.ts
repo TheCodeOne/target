@@ -19,7 +19,6 @@ export const LeistungsvorgabeSchema = z.enum([
   LeistungsvorgabeGesamtkapitalSchema.value,
   LeistungsvorgabeGesamtrenteSchema.value,
 ]);
-export type Leistungsvorgabe = z.infer<typeof LeistungsvorgabeSchema>;
 
 export const leistungsVorgabeOpts: NxDropdownOption[] = Object.entries(
   LeistungsvorgabeSchema.enum

@@ -17,7 +17,6 @@ export const RentenzahlungsweiseSchema = z.enum([
   RentenzahlungsweiseHalbjaehrlichSchema.value,
   RentenzahlungsweiseJaehrlichSchema.value,
 ]);
-export type Rentenzahlungsweise = z.infer<typeof RentenzahlungsweiseSchema>;
 
 export const rentenzahlungsweiseOpts: NxDropdownOption[] = Object.entries(
   RentenzahlungsweiseSchema.enum

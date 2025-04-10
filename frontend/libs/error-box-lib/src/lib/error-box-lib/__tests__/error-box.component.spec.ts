@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ErrorBoxComponent } from '../../../../index';
+import { ErrorBoxComponent } from '../error-box.component';
 
 describe('ErrorBoxComponent', () => {
   let component: ErrorBoxComponent;

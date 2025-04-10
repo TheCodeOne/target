@@ -11,7 +11,6 @@ export const BeitragszahlungsweiseSchema = z.enum([
   BeitragszahlungsweiseEinmalbeitragSchema.value,
   BeitragszahlungsweiseMonatlicheBeiträgeSchema.value,
 ]);
-export type Beitragszahlungsweise = z.infer<typeof BeitragszahlungsweiseSchema>;
 
 export const beitragszahlungsweiseOpts: NxDropdownOption[] = Object.entries(
   BeitragszahlungsweiseSchema.enum

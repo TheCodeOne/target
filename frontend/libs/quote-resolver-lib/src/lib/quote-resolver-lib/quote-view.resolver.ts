@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-
-import { QuoteStore } from '../../../../../libs/view-lib/src/lib/view-lib/store/quote.store';
+import { QuoteStore } from '@target/view-lib';
 
 export const quoteViewResolver: ResolveFn<void> = (route, state) => {
   const quoteStore = inject(QuoteStore);

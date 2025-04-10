@@ -1,8 +1,7 @@
 import { Route } from '@angular/router';
 import { InputLibComponent } from '@target/input-lib';
+import { quoteViewResolver } from '@target/quote-resolver-lib';
 import { ViewLibComponent } from '@target/view-lib';
-
-import { quoteViewResolver } from './resolvers/quote-view.resolver';
 
 const ROUTES = {
   INPUTS: 'inputs',

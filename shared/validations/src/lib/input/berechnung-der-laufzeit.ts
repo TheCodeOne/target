@@ -11,7 +11,6 @@ export const BerechnungDerLaufzeitSchema = z.enum([
   BerechnungDerLaufzeitAlterBeiRentenbeginnSchema.value,
   BerechnungDerLaufzeitAufschubdauerSchema.value,
 ]);
-export type BerechnungDerLaufzeit = z.infer<typeof BerechnungDerLaufzeitSchema>;
 
 export const berechnungDerLaufzeitOpts: NxDropdownOption[] = Object.entries(
   BerechnungDerLaufzeitSchema.enum

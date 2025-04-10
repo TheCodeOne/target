@@ -4,16 +4,16 @@ export interface QuoteRequestDto extends InputDto {}
 
 export interface QuoteResponseDto {
   id?: string;
-  basisdaten: QuoteBasisdatenDto;
-  leistungsmerkmale: QuoteLeistungsmerkmaleDto;
-  beitrag: QuoteBeitragDto;
+  basisdaten: IQuoteBasisdaten;
+  leistungsmerkmale: IQuoteLeistungsmerkmale;
+  beitrag: IQuoteBeitrag;
 }
 
 export interface QuoteCreateResponseDto {
   id: string;
 }
 
-interface QuoteBasisdatenDto {
+interface IQuoteBasisdaten {
   geburtsdatum: string;
   versicherungsbeginn: string;
   garantieniveau: string;
@@ -22,13 +22,13 @@ interface QuoteBasisdatenDto {
   beitragszahlungsdauer: number;
 }
 
-interface QuoteLeistungsmerkmaleDto {
+interface IQuoteLeistungsmerkmale {
   garantierteMindestrente: number;
   einmaligesGarantiekapital: number;
   todesfallleistungAbAltersrentenbezug: number;
 }
 
-interface QuoteBeitragDto {
+interface IQuoteBeitrag {
   einmalbeitrag: number;
   beitragsdynamik: string;
 }

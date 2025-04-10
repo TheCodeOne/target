@@ -1,8 +1,8 @@
 export default {
-  displayName: 'ui-lib',
+  displayName: 'quote-resolver-lib',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../coverage/ui-lib',
+  coverageDirectory: '../../../coverage/frontend/libs/quote-resolver-lib',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
