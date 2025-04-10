@@ -4,7 +4,7 @@ interface InputField<T> {
   error: string | null;
 }
 
-export interface InputState {
+interface InputState {
   geburtsdatum: InputField<string>;
   leistungsVorgabe: InputField<string>;
   beitrag: InputField<number>;
@@ -14,7 +14,9 @@ export interface InputState {
   rentenzahlungsweise: InputField<string>;
 }
 
-export interface Input {
+interface Input {
   key: keyof InputState;
   value: string | number;
 }
+
+export  { Input,InputState };

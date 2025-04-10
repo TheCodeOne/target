@@ -6,8 +6,7 @@ import {
   NxLayoutComponent,
   NxRowComponent,
 } from '@aposin/ng-aquila/grid';
-
-import { QuoteStore } from './store/quote.store';
+import { QuoteStore } from '@target/quota-store-lib';
 
 @Component({
   selector: 'lib-view-lib',

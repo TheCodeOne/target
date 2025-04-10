@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import { InputStore } from '@target/input-store-lib';
+import { QuoteService } from '@target/service-lib';
 
 import { InputLibComponent } from '../../../index';
-import { InputStore } from '../store/input.store';
-import { QuoteService } from '../store/services/quote.service';
 
 describe('InputLibComponent', () => {
   let component: InputLibComponent;

@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { QuoteRequestDto } from '@target/interfaces';
+import { QuoteService } from '@target/service-lib';
 import { InputDtoSchema } from '@target/validations';
 import { lastValueFrom } from 'rxjs';
 
-import { Input, InputState } from './input.store.interfaces';
-import { QuoteService } from './services/quote.service';
+import { Input, InputState } from './interface/input.store.interfaces';
 
 const initialState: InputState = {
   geburtsdatum: { value: '', valid: true, error: null },

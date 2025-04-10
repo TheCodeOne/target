@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { QuoteService } from '@target/service-lib';
 import { lastValueFrom } from 'rxjs';
 
-import { QuoteService } from '../../../../../input-lib/src/lib/input-lib/store/services/quote.service';
-import { QuoteState } from './quote.store.interface';
+import { QuoteState } from './interface/quote.store.interface';
 
 const initialState: QuoteState = {
   basisdaten: {

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { fakerEN } from '@faker-js/faker';
 import { QuoteResponseDto } from '@target/interfaces';
+import { QuoteService } from '@target/service-lib';
 import { of } from 'rxjs';
 
-import { QuoteService } from '../../../../../input-lib/src/lib/input-lib/store/services/quote.service';
-import { QuoteStore } from '../store/quote.store';
+import { QuoteStore } from '../quote.store';
 
 describe('QuoteStore', () => {
   let store: any;

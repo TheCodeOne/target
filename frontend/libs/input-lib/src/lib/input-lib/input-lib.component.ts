@@ -15,6 +15,9 @@ import {
 import { NxInputModule } from '@aposin/ng-aquila/input';
 import { NxIsoDateModule } from '@aposin/ng-aquila/iso-date-adapter';
 import { NxSpinnerComponent } from '@aposin/ng-aquila/spinner';
+import { DatepickerComponent } from '@target/date-picker-lib';
+import { ErrorBoxComponent } from '@target/error-box-lib';
+import { Input, InputStore } from '@target/input-store-lib';
 import { ApiErrorResponse } from '@target/interfaces';
 import {
   beitragszahlungsweiseOpts,
@@ -23,11 +26,6 @@ import {
   rentenzahlungsweiseOpts,
 } from '@target/validations';
 import { debounceTime } from 'rxjs';
-
-import { DatepickerComponent } from '../../../../date-picker-lib/src/lib/date-picker-lib/datepicker.component';
-import { InputStore } from './store/input.store';
-import { Input } from './store/input.store.interfaces';
-import { ErrorBoxComponent } from '../../../../error-box-lib/src/lib/error-box-lib/error-box.component';
 
 @Component({
   selector: 'lib-input-lib',

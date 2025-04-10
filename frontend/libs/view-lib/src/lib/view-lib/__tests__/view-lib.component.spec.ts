@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { QuoteStore } from '@target/quota-store-lib';
 
-import { QuoteStore } from '../store/quote.store';
 import { ViewLibComponent } from '../view-lib.component';
 
 describe('ViewLibComponent', () => {
