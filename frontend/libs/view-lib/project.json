@@ -1,16 +1,20 @@
 {
   "name": "view-lib",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "view-lib/src",
+  "sourceRoot": "frontend/libs/view-lib/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": [
+    "ui"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
-        "jestConfig": "view-lib/jest.config.ts"
+        "jestConfig": "frontend/libs/view-lib/jest.config.ts"
       }
     },
     "lint": {

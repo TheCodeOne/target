@@ -47,15 +47,15 @@ import moment, { Moment } from 'moment/moment';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatepickerComponent implements ControlValueAccessor {
-  protected isDisabled: boolean = false;
-  private _value: string = '';
-  private onChange: any = () => {};
-  private onTouched: any = () => {};
-
   protected readonly adapter = inject(NxDateAdapter);
 
   protected minDate = moment().subtract(100, 'years');
   protected maxDate = moment().subtract(18, 'years');
+
+  private _value: string = '';
+
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
 
   get value(): string {
     return this._value;
@@ -63,13 +63,14 @@ export class DatepickerComponent implements ControlValueAccessor {
 
   set value(val: Moment) {
     this._value = val?.format('YYYY-MM-DD');
+
     this.onChange(val?.format('YYYY-MM-DD'));
     this.onTouched();
   }
 
-  writeValue(value: string): void {
-    if (value !== undefined) {
-      this._value = '';
+  writeValue(value: Moment): void {
+    if (value) {
+      this._value = value.format('YYYY-MM-DD');
     }
   }
 
@@ -81,7 +82,5 @@ export class DatepickerComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
+  setDisabledState?(_: boolean): void {}
 }

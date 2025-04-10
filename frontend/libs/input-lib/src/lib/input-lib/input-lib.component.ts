@@ -66,7 +66,7 @@ export class InputLibComponent implements OnInit {
   protected readonly beitragszahlungsweiseOpts = beitragszahlungsweiseOpts;
   protected readonly rentenzahlungsweiseOpts = rentenzahlungsweiseOpts;
 
-  profile = this.formBuilder.group({
+  protected profile = this.formBuilder.group({
     geburtsdatum: [this.inputStore.uiState()['geburtsdatum'].value],
     leistungsVorgabe: [this.inputStore.uiState()['leistungsVorgabe'].value],
     beitrag: [this.inputStore.uiState()['beitrag'].value],

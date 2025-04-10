@@ -23,11 +23,11 @@ export class ErrorBoxComponent {
       this.apiErrorMessage.set({ message: [] } as ApiError);
     }
 
-    const error: ApiError = Array.isArray(value.message)
+    const error: ApiError = Array.isArray(value?.message)
       ? (value as ApiError)
       : {
           ...value,
-          message: value.message ? [value.message] : [],
+          message: value?.message ? [value.message] : [],
         };
 
     this.apiErrorMessage.set(error);
