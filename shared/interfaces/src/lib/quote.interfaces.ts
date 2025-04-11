@@ -9,10 +9,6 @@ export interface QuoteResponseDto {
   beitrag: IQuoteBeitrag;
 }
 
-export interface QuoteCreateResponseDto {
-  id: string;
-}
-
 interface IQuoteBasisdaten {
   geburtsdatum: string;
   versicherungsbeginn: string;

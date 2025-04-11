@@ -118,11 +118,13 @@ export const InputStore = signalStore(
         throw new Error('Invalid input');
       }
 
-      return (
-        await lastValueFrom(
-          quoteService.calculateQuote(quoteDto as QuoteRequestDto)
-        )
-      ).id;
+      return <string>(
+        (
+          await lastValueFrom(
+            quoteService.calculateQuote(quoteDto as QuoteRequestDto)
+          )
+        ).id
+      );
     },
   }))
 );

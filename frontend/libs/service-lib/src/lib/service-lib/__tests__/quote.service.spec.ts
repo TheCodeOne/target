@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { fakerEN } from '@faker-js/faker';
 import { QuoteRequestDto, QuoteResponseDto } from '@target/interfaces';
 import { firstValueFrom, of, throwError } from 'rxjs';
 
@@ -7,10 +8,30 @@ import { QuoteService } from '../quote.service';
 
 describe('QuoteService', () => {
   let service: QuoteService;
-  let httpClient: { post: jest.Mock };
+  let httpClient: { post: jest.Mock; get: jest.Mock };
+
+  const mockResponse: QuoteResponseDto = {
+    basisdaten: {
+      geburtsdatum: '1990-01-01',
+      versicherungsbeginn: '2024-01-01',
+      garantieniveau: '90%',
+      alterBeiRentenbeginn: 67,
+      aufschubdauer: 30,
+      beitragszahlungsdauer: 10,
+    },
+    leistungsmerkmale: {
+      garantierteMindestrente: 50000,
+      einmaligesGarantiekapital: 25000,
+      todesfallleistungAbAltersrentenbezug: 40000,
+    },
+    beitrag: {
+      einmalbeitrag: 0,
+      beitragsdynamik: '1,5%',
+    },
+  };
 
   beforeEach(() => {
-    httpClient = { post: jest.fn() };
+    httpClient = { post: jest.fn(), get: jest.fn() };
     TestBed.configureTestingModule({
       providers: [QuoteService, { provide: HttpClient, useValue: httpClient }],
     });
@@ -32,26 +53,6 @@ describe('QuoteService', () => {
         leistungsVorgabe: 'Beitrag',
         berechnungDerLaufzeit: 'Alter bei Rentenbeginn',
         beitragszahlungsweise: 'Monatliche Beiträge',
-      };
-
-      const mockResponse: QuoteResponseDto = {
-        basisdaten: {
-          geburtsdatum: '1990-01-01',
-          versicherungsbeginn: '2024-01-01',
-          garantieniveau: '90%',
-          alterBeiRentenbeginn: 67,
-          aufschubdauer: 30,
-          beitragszahlungsdauer: 10,
-        },
-        leistungsmerkmale: {
-          garantierteMindestrente: 50000,
-          einmaligesGarantiekapital: 25000,
-          todesfallleistungAbAltersrentenbezug: 40000,
-        },
-        beitrag: {
-          einmalbeitrag: 0,
-          beitragsdynamik: '1,5%',
-        },
       };
 
       httpClient.post.mockReturnValue(of(mockResponse));
@@ -83,6 +84,21 @@ describe('QuoteService', () => {
         firstValueFrom(service.calculateQuote(mockRequest))
       ).rejects.toBe(errorResponse);
       expect(httpClient.post).toHaveBeenCalledWith('/api/quote', mockRequest);
+    });
+  });
+
+  describe('fetchQuote', () => {
+    it('should fetch quote data', async () => {
+      const id = fakerEN.string.alpha({ length: 15 });
+
+      const mockTestResponse: QuoteResponseDto = { ...mockResponse, id };
+
+      httpClient.get.mockReturnValue(of(mockTestResponse));
+
+      const response = await firstValueFrom(service.fetchQuote(id));
+
+      expect(response).toEqual(mockTestResponse);
+      expect(httpClient.get).toHaveBeenCalledWith(`/api/quote/${id}`);
     });
   });
 });
