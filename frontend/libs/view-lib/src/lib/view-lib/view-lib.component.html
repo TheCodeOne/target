@@ -1,0 +1,80 @@
+<div nxLayout="grid maxwidth">
+  <div nxRow>
+    <div nxLayout="grid">
+      <div class="nx-margin-top-xs">
+        <div class="nx-margin-bottom-s">
+          <strong>
+            <strong
+              class="nx-margin-right-2xs">Einmalbeitrag:</strong>
+            {{ state.beitrag.einmalbeitrag | currency : 'EUR' }}
+          </strong>
+        </div>
+      </div>
+      <div class="nx-margin-top-xs">
+        <div class="nx-margin-bottom-s">
+          <strong>
+            <strong
+              class="nx-margin-right-2xs">Garantierte
+              Mindestrente:</strong> {{ state.leistungsmerkmale.garantierteMindestrente | currency : 'EUR' }}
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div nxRow>
+    <div nxLayout="grid">
+      <h2>Basisdaten</h2>
+      <div nxRow class="nx-margin-bottom-2m">
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Geburtsdatum">{{ state.basisdaten.geburtsdatum }}</nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Beginn der Versicherung">{{ state.basisdaten.versicherungsbeginn }}</nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Garantiestufe">{{ state.basisdaten.garantieniveau }}</nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Alter bei Rentenbeginn">{{ state.basisdaten.alterBeiRentenbeginn }}</nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Dauer der Verschiebung">{{ state.basisdaten.aufschubdauer }}</nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Zeitraum der Beitragszahlung">{{ state.basisdaten.beitragszahlungsdauer }}
+          </nx-data-display>
+        </div>
+      </div>
+
+      <h2>Leistungsmerkmale</h2>
+      <div nxRow class="nx-margin-bottom-2m">
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Garantierte Mindestrente">{{ state.leistungsmerkmale.garantierteMindestrente }}
+          </nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display
+            label="Einmaliges Garantiertes Kapital">{{ state.leistungsmerkmale.einmaligesGarantiekapital }}
+          </nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display
+            label="Sterbegeld aus Altersrentenbezug">{{ state.leistungsmerkmale.todesfallleistungAbAltersrentenbezug }}
+          </nx-data-display>
+        </div>
+      </div>
+
+      <h2>Beitrag</h2>
+      <div nxRow class="nx-margin-bottom-2m">
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Einzigartiger Beitrag">{{ state.beitrag.einmalbeitrag }}</nx-data-display>
+        </div>
+        <div nxCol="4" class="nx-margin-bottom-s">
+          <nx-data-display label="Beitragsdynamik">{{ state.beitrag.beitragsdynamik }}</nx-data-display>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

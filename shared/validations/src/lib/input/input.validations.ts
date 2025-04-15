@@ -2,10 +2,12 @@ import { z } from 'zod';
 
 import { BeitragszahlungsweiseSchema } from './beitragszahlungsweise';
 import { BerechnungDerLaufzeitSchema } from './berechnung-der-laufzeit';
+import { geburtsdatumSchema } from './geburtsdatum';
 import { LeistungsvorgabeSchema } from './leistungsvorgabe';
 import { RentenzahlungsweiseSchema } from './rentenzahlungsweise';
 
 export const InputDtoSchema = z.object({
+  geburtsdatum: geburtsdatumSchema,
   leistungsVorgabe: LeistungsvorgabeSchema.nullish(),
   beitrag: z
     .number()
@@ -15,7 +17,7 @@ export const InputDtoSchema = z.object({
   laufzeit: z
     .number()
     .min(1, 'Die Laufzeit muss mindestens 1 Jahr betragen')
-    .max(100, 'Die Laufzeit darf höchstens 40 Jahre betragen'),
+    .max(40, 'Die Laufzeit darf höchstens 40 Jahre betragen'),
   beitragszahlungsweise: BeitragszahlungsweiseSchema.nullish(),
   rentenzahlungsweise: RentenzahlungsweiseSchema.nullish(),
 });

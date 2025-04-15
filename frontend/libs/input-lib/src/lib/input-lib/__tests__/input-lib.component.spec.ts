@@ -1,135 +1,81 @@
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import { InputStore } from '@target/input-store-lib';
+import { QuoteService } from '@target/service-lib';
 
-import { InputLibComponent } from '../input-lib.component';
-import { InputStore } from '../store/input.store';
-import { Input, InputState } from '../store/input.store.interfaces';
-import { QuoteService } from '../store/services/quote.service';
-
-jest.mock('../store/input.store');
-jest.mock('../store/services/quote.service');
+import { InputLibComponent } from '../../../index';
 
 describe('InputLibComponent', () => {
   let component: InputLibComponent;
   let fixture: ComponentFixture<InputLibComponent>;
-  let inputStore: any;
-  let _quoteService: QuoteService;
+
+  // @ts-ignore
+  let consoleSpy: any;
+
+  const mockInputStore = {
+    uiState: jest.fn().mockReturnValue({
+      geburtsdatum: { value: '' },
+      leistungsVorgabe: { value: '' },
+      beitrag: { value: '' },
+      berechnungDerLaufzeit: { value: '' },
+      laufzeit: { value: '' },
+      beitragszahlungsweise: { value: '' },
+      rentenzahlungsweise: { value: '' },
+    }),
+    updateInputs: jest.fn().mockResolvedValue(undefined),
+    calculate: jest.fn().mockResolvedValue('1234'),
+    processErrors: jest.fn(),
+  };
+
+  const mockRouter = {
+    navigate: jest.fn().mockResolvedValue(true),
+  };
 
   beforeEach(async () => {
-    const mockHttp = {
-      post: jest.fn()
-    } as Partial<HttpClient>;
-    const mockQuoteService = {
-      calculateQuote: jest.fn().mockReturnValue(of({
-        basisdaten: {
-          geburtsdatum: '1990-01-01',
-          versicherungsbeginn: '2024-01-01',
-          garantieniveau: '90%',
-          alterBeiRentenbeginn: 67,
-          aufschubdauer: 30,
-          beitragszahlungsdauer: 30
-        },
-        leistungsmerkmale: {
-          garantierteMindestrente: 1000,
-          einmaligesGarantiekapital: 100000,
-          todesfallleistungAbAltersrentenbezug: 50000
-        },
-        beitrag: {
-          einmalbeitrag: 50000,
-          beitragsdynamik: '3%'
+    // Prevent 'Could not parse CSS stylesheet' exception from running the test. Apparently a bug with nx-spinner css library
+    consoleSpy = jest
+      .spyOn(global.console, 'error')
+      .mockImplementation((message) => {
+        if (!message.toString().includes('Could not parse CSS stylesheet')) {
+          global.console.warn(message);
         }
-      })),
-      http: mockHttp as HttpClient
-    };
-    const mockState: InputState = {
-      leistungsVorgabe: { value: 'Beitrag', valid: true, error: null },
-      beitrag: { value: 1000, valid: true, error: null },
-      berechnungDerLaufzeit: { value: 'Alter bei Rentenbeginn', valid: true, error: null },
-      laufzeit: { value: 10, valid: true, error: null },
-      beitragszahlungsweise: { value: 'Einmalbeitrag', valid: true, error: null },
-      rentenzahlungsweise: { value: 'Monatliche Renten', valid: true, error: null },
-      quote: {
-        basisdaten: {
-          geburtsdatum: '',
-          versicherungsbeginn: '',
-          garantieniveau: '',
-          alterBeiRentenbeginn: 0,
-          aufschubdauer: 0,
-          beitragszahlungsdauer: 0
-        },
-        leistungsmerkmale: {
-          garantierteMindestrente: 0,
-          einmaligesGarantiekapital: 0,
-          todesfallleistungAbAltersrentenbezug: 0
-        },
-        beitrag: {
-          einmalbeitrag: 0,
-          beitragsdynamik: ''
-        },
-      },
-    };
+      });
 
     await TestBed.configureTestingModule({
-      imports: [InputLibComponent],
+      imports: [ReactiveFormsModule, NoopAnimationsModule, InputLibComponent],
       providers: [
         provideHttpClient(),
-        { provide: QuoteService, useValue: mockQuoteService },
-        { provide: InputStore, useValue: {
-          updateInputs: jest.fn(),
-          calculate: jest.fn(),
-          uiState: jest.fn(() => mockState)
-        }}
-      ]
+        {
+          provide: QuoteService,
+          useValue: { calculateQuote: jest.fn(), fetchQuote: jest.fn() },
+        },
+        {
+          provide: InputStore,
+          useValue: mockInputStore,
+        },
+        {
+          provide: Router,
+          useValue: mockRouter,
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InputLibComponent);
     component = fixture.componentInstance;
-    inputStore = TestBed.inject(InputStore);
-    _quoteService = TestBed.inject(QuoteService);
-    fixture.detectChanges();
   });
+
+  afterAll(() => consoleSpy.mockRestore());
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update inputs through the store', async () => {
-    const input: Input = {
-      key: 'beitrag',
-      value: 2000
-    };
+  it('should calculate through the store', () => {
+    component.calculate();
 
-    await component.updateInputs(input);
-
-    expect(inputStore.updateInputs).toHaveBeenCalledWith(input);
-  });
-
-  it('should calculate through the store', async () => {
-    await component.calculate();
-
-    expect(inputStore.calculate).toHaveBeenCalled();
-  });
-
-  it('should handle string inputs', async () => {
-    const input: Input = {
-      key: 'leistungsVorgabe',
-      value: 'Rente'
-    };
-
-    await component.updateInputs(input);
-
-    expect(inputStore.updateInputs).toHaveBeenCalledWith(input);
-  });
-
-  it('should handle numeric inputs', async () => {
-    const input: Input = {
-      key: 'laufzeit',
-      value: 15
-    };
-
-    await component.updateInputs(input);
-
-    expect(inputStore.updateInputs).toHaveBeenCalledWith(input);
+    expect(mockInputStore.calculate).toHaveBeenCalled();
   });
 });

@@ -3,12 +3,13 @@ import { InputDto } from '@target/validations';
 export interface QuoteRequestDto extends InputDto {}
 
 export interface QuoteResponseDto {
-  basisdaten: QuoteBasisdatenDto;
-  leistungsmerkmale: QuoteLeistungsmerkmaleDto;
-  beitrag: QuoteBeitragDto;
+  id?: string;
+  basisdaten: IQuoteBasisdaten;
+  leistungsmerkmale: IQuoteLeistungsmerkmale;
+  beitrag: IQuoteBeitrag;
 }
 
-interface QuoteBasisdatenDto {
+interface IQuoteBasisdaten {
   geburtsdatum: string;
   versicherungsbeginn: string;
   garantieniveau: string;
@@ -17,13 +18,13 @@ interface QuoteBasisdatenDto {
   beitragszahlungsdauer: number;
 }
 
-interface QuoteLeistungsmerkmaleDto {
+interface IQuoteLeistungsmerkmale {
   garantierteMindestrente: number;
   einmaligesGarantiekapital: number;
   todesfallleistungAbAltersrentenbezug: number;
 }
 
-interface QuoteBeitragDto {
+interface IQuoteBeitrag {
   einmalbeitrag: number;
   beitragsdynamik: string;
 }

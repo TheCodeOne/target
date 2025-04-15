@@ -1,0 +1,17 @@
+<nx-formfield label="Date of Brith">
+  <input
+    [min]="minDate"
+    [max]="maxDate"
+    nxDatefield
+    nxInput
+    [datepicker]="datePicker"
+    [(ngModel)]="value"
+  />
+  <span nxFormfieldHint>MM/DD/YYYY</span>
+  <nx-error nxFormfieldError> Please enter a valid date.</nx-error>
+  <nx-datepicker-toggle
+    [for]="datePicker"
+    nxFormfieldSuffix
+  ></nx-datepicker-toggle>
+  <nx-datepicker #datePicker></nx-datepicker>
+</nx-formfield>
